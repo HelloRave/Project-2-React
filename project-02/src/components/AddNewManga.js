@@ -128,7 +128,8 @@ export default function AddNewManga(props) {
                     <label>No</label>
                 </div>
             </div>
-            <button className='btn btn-primary'>Add</button>
+            <button className='btn btn-primary'
+                    onClick={props.continueToReview}>Next</button>
         </div>
     )
 }

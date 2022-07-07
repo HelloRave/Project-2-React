@@ -2,10 +2,15 @@ import React from 'react'
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap'
 import axios from 'axios'
 import AddNewManga from './AddNewManga'
+import NewMangaReview from './NewMangaReview'
 
 export default class LandingPage extends React.Component {
 
+    url = 'https://8888-hellorave-project2expre-sdcjkd5bg99.ws-us52.gitpod.io/'
+
     state = {
+        data: [], // to be used to display manga cards
+        active: 'add-new-manga',
         title: '',
         author: '',
         description: '',
@@ -24,8 +29,12 @@ export default class LandingPage extends React.Component {
     }
 
     async componentDidMount() {
-        let genreResponse = await axios.get('../json/genre.json')
+        let genreRequest = await axios.get('../json/genre.json')
+        let allMangaRequest = await axios.get(this.url)
+
+        let [genreResponse, allMangaResponse] = await axios.all([genreRequest, allMangaRequest])
         this.setState({
+            data: allMangaResponse.data,
             allGenre: genreResponse.data
         })
     }
@@ -61,6 +70,66 @@ export default class LandingPage extends React.Component {
         }
     }
 
+    continueToReview = async () => {
+        const newManga = {
+            'title': this.state.title,
+            'author_name': this.state.author,
+            'genre': this.state.genre,
+            'anime_adaptation': this.state.animeAdaptation,
+            'chapters': this.state.chapters,
+            'ongoing': this.state.ongoing,
+            'published': this.state.firstPublished,
+            'serialization': this.state.serialization,
+            'volumes': this.state.volumes,
+        }
+
+        await this.setState({
+            data: [...this.state.data, newManga],
+            active: ''
+        })
+
+        console.log(this.state.data[this.state.data.length - 1])
+    }
+
+    addNewManga = async () => {
+        try {
+            let response = await axios.post(this.url + 'add_new_manga', {
+                'title': this.state.title,
+                'author_name': this.state.author,
+                'genre': this.state.genre,
+                'anime_adaptation': this.state.animeAdaptation,
+                'chapters': this.state.chapters,
+                'ongoing': this.state.ongoing,
+                'published': this.state.firstPublished,
+                'serialization': this.state.serialization,
+                'volumes': this.state.volumes,
+                'plot': this.state.plot,
+                'main_characters': this.state.mainCharacters,
+                'supporting_characters': this.state.supportingCharacters,
+                'rating': this.state.rating
+            })
+
+            let lastIndex = this.state.data.length - 1
+            let lastAdded = this.state.data[lastIndex]
+            lastAdded = {
+                ...lastAdded,
+                _id: response.data.insertedId,
+                'plot': this.state.plot,
+                'main_characters': this.state.mainCharacters,
+                'supporting_characters': this.state.supportingCharacters,
+                'rating': this.state.rating
+            }
+
+            this.setState({
+                data: [...this.state.data.slice(0, lastIndex), lastAdded]
+            })
+
+            alert('Completed')
+        } catch (e) {
+            alert('Error')
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -86,54 +155,47 @@ export default class LandingPage extends React.Component {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <AddNewManga title={this.state.title}
-                             author={this.state.author}
-                             description={this.state.description}
-                             allGenre={this.state.allGenre}
-                             genre={this.state.genre}
-                             firstPublished={this.state.firstPublished}
-                             volumes={this.state.volumes}
-                             chapters={this.state.chapters}
-                             serialization={this.state.serialization}
-                             ongoing={this.state.ongoing}
-                             animeAdaptation={this.state.animeAdaptation}
-                             updateFormField={this.updateFormField}
-                             updateGenre={this.updateGenre}
-                             updateNumberFormField={this.updateNumberFormField}
-                             updateBooleanFormField={this.updateBooleanFormField}/>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-12'>
-                            <label className='form-label'>Plot</label>
-                            <textarea className='form-control'
-                                name='plot'
-                                value={this.state.plot}
-                                onChange={this.updateFormField}></textarea>
-                        </div>
-                        <div className='col-12'>
-                            <label className='form-label'>Main Characters</label>
-                            <textarea className='form-control'
-                                name='mainCharacters'
-                                value={this.state.mainCharacters}
-                                onChange={this.updateFormField}></textarea>
-                        </div>
-                        <div className='col-12'>
-                            <label className='form-label'>Supporting Characters</label>
-                            <textarea className='form-control'
-                                name='supportingCharacters'
-                                value={this.state.supportingCharacters}
-                                onChange={this.updateFormField}></textarea>
-                        </div>
-                        <div className='col-12'>
-                            <label className='form-label'>Rating</label>
-                            <input type='number'
-                                className='form-control'
-                                name='rating'
-                                value={this.state.rating}
-                                onChange={this.updateNumberFormField} />
-                        </div>
-                    </div>
+                <div>
+                    {this.state.data.map((obj) => {
+                        return (
+                            <React.Fragment key={obj._id}>
+                                <p>{obj.title}</p>
+                                <p>{obj.published}</p>
+                            </React.Fragment>
+
+                        )
+                    })}
                 </div>
+                {this.state.active === 'add-new-manga' ?
+                    <AddNewManga title={this.state.title}
+                        author={this.state.author}
+                        description={this.state.description}
+                        allGenre={this.state.allGenre}
+                        genre={this.state.genre}
+                        firstPublished={this.state.firstPublished}
+                        volumes={this.state.volumes}
+                        chapters={this.state.chapters}
+                        serialization={this.state.serialization}
+                        ongoing={this.state.ongoing}
+                        animeAdaptation={this.state.animeAdaptation}
+                        updateFormField={this.updateFormField}
+                        updateGenre={this.updateGenre}
+                        updateNumberFormField={this.updateNumberFormField}
+                        updateBooleanFormField={this.updateBooleanFormField}
+                        continueToReview={this.continueToReview} />
+
+                    :
+
+                    <NewMangaReview plot={this.state.plot}
+                        mainCharacters={this.state.mainCharacters}
+                        supportingCharacters={this.state.supportingCharacters}
+                        rating={this.state.rating}
+                        updateFormField={this.updateFormField}
+                        updateNumberFormField={this.updateNumberFormField}
+                        confirmAdd={this.addNewManga} />
+                }
+
+
             </React.Fragment>
 
         )
