@@ -7,7 +7,6 @@ function App() {
   return (
     <div id='home'>
       <LandingPage />
-      <img alt='' src={require('./images/background.jpg')} />
     </div>
   );
 }
