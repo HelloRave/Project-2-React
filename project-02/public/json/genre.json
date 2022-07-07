@@ -1,0 +1,34 @@
+[
+    {
+        "display": "Action",
+        "value": "action"
+    },
+    {
+        "display": "Adventure",
+        "value": "adventure"
+    },
+    {
+        "display": "Comedy",
+        "value": "comedy"
+    },
+    {
+        "display": "Drama",
+        "value": "drama"
+    },
+    {
+        "display": "Fantasy",
+        "value": "fantasy"
+    },
+    {
+        "display": "Horror",
+        "value": "horror"
+    },
+    {
+        "display": "Mystery",
+        "value": "mystery"
+    },
+    {
+        "display": "Sports",
+        "value": "sports"
+    }
+]
