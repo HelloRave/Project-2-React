@@ -7,8 +7,7 @@ import NewMangaReview from './NewMangaReview'
 export default class LandingPage extends React.Component {
 
     url = 'https://8888-hellorave-project2expre-gj9n7el4lj3.ws-us53.gitpod.io/'
-
-
+    
     state = {
         data: [], // to be used to display manga cards
         active: 'add-new-manga',
@@ -27,8 +26,7 @@ export default class LandingPage extends React.Component {
         mainCharacters: '',
         supportingCharacters: '',
         rating: '',
-        allGenre: [],
-        testing: 'Togashi'
+        allGenre: []
     }
 
     async componentDidMount() {
@@ -36,10 +34,6 @@ export default class LandingPage extends React.Component {
         let allMangaRequest = await axios.get(this.url)
 
         let [genreResponse, allMangaResponse] = await axios.all([genreRequest, allMangaRequest])
-
-        let authorResponse = await axios.get(this.url + 'find_author/' + this.state.testing)
-
-        console.log(authorResponse.data[0]._id)
 
         this.setState({
             data: allMangaResponse.data,
@@ -103,16 +97,9 @@ export default class LandingPage extends React.Component {
         try {
 
             let authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
-
-            this.setState({
-                author_id: authorResponse.data[0]._id
-            })
-            
             let response = await axios.post(this.url + 'add_new_manga', {
+                'author_id': authorResponse.data[0]._id ? authorResponse.data[0]._id : '',
                 'title': this.state.title,
-                params: {
-                    author_id: this.state.author_id ? this.state.author_id : ''
-                }, //this doesnt work ?
                 'author_name': this.state.author,
                 'genre': this.state.genre,
                 'anime_adaptation': this.state.animeAdaptation,
