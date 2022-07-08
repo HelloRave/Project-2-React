@@ -86,7 +86,7 @@ export default class LandingPage extends React.Component {
         }
 
         await this.setState({
-            data: [...this.state.data, newManga],
+            data: [...this.state.data, newManga], //refined the newManga - else will be displayed after setState
             active: ''
         })
 
@@ -96,11 +96,13 @@ export default class LandingPage extends React.Component {
     addNewManga = async () => {
         try {
 
-            let authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
+            let authorResponse = await axios.get(this.url + 'find_author/' + this.state.author) // ERROR if author not keyed in
+
             let response = await axios.post(this.url + 'add_new_manga', {
-                'author_id': authorResponse.data[0]._id ? authorResponse.data[0]._id : '',
+                // 'author_id': authorResponse.data[0]._id ? authorResponse.data[0]._id : '', - ERROR if no author matched 
                 'title': this.state.title,
                 'author_name': this.state.author,
+                'description': this.state.description,
                 'genre': this.state.genre,
                 'anime_adaptation': this.state.animeAdaptation,
                 'chapters': this.state.chapters,
