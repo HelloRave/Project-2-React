@@ -6,12 +6,14 @@ import NewMangaReview from './NewMangaReview'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-sdcjkd5bg99.ws-us52.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-gj9n7el4lj3.ws-us53.gitpod.io/'
+
 
     state = {
         data: [], // to be used to display manga cards
         active: 'add-new-manga',
         title: '',
+        author_id: '',
         author: '',
         description: '',
         genre: [],
@@ -25,7 +27,8 @@ export default class LandingPage extends React.Component {
         mainCharacters: '',
         supportingCharacters: '',
         rating: '',
-        allGenre: []
+        allGenre: [],
+        testing: 'Togashi'
     }
 
     async componentDidMount() {
@@ -33,6 +36,11 @@ export default class LandingPage extends React.Component {
         let allMangaRequest = await axios.get(this.url)
 
         let [genreResponse, allMangaResponse] = await axios.all([genreRequest, allMangaRequest])
+
+        let authorResponse = await axios.get(this.url + 'find_author/' + this.state.testing)
+
+        console.log(authorResponse.data[0]._id)
+
         this.setState({
             data: allMangaResponse.data,
             allGenre: genreResponse.data
@@ -93,8 +101,18 @@ export default class LandingPage extends React.Component {
 
     addNewManga = async () => {
         try {
+
+            let authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
+
+            this.setState({
+                author_id: authorResponse.data[0]._id
+            })
+            
             let response = await axios.post(this.url + 'add_new_manga', {
                 'title': this.state.title,
+                params: {
+                    author_id: this.state.author_id ? this.state.author_id : ''
+                }, //this doesnt work ?
                 'author_name': this.state.author,
                 'genre': this.state.genre,
                 'anime_adaptation': this.state.animeAdaptation,
@@ -194,6 +212,66 @@ export default class LandingPage extends React.Component {
                         updateNumberFormField={this.updateNumberFormField}
                         confirmAdd={this.addNewManga} />
                 }
+
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-6'>
+                            <label className='form-label'>Title</label>
+                            <input type='text' className='form-control' />
+                        </div>
+                        <div className='col-6'>
+                            <label className='form-label'>Author</label>
+                            <input type='text' className='form-control' />
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col'>
+                            <label className='form-label'>Genre</label>
+                            <Form.Select aria-label="Default select example">
+                                <option>-- Select Genre --</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </Form.Select>
+                        </div>
+                        <div className='col'>
+                            <label className='form-label'>Ongoing</label>
+                            <Form.Select aria-label="Default select example">
+                                <option>-- Select --</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </Form.Select>
+                        </div>
+                        <div className='col'>
+                            <label className='form-label'>Volumes</label>
+                            <Form.Select aria-label="Default select example">
+                                <option>-- Select Genre --</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </Form.Select>
+                        </div>
+                        <div className='col'>
+                            <label className='form-label'>Chapters</label>
+                            <Form.Select aria-label="Default select example">
+                                <option>-- Select Genre --</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </Form.Select>
+                        </div>
+                        <div className='col'>
+                            <label className='form-label'>Rating</label>
+                            <Form.Select aria-label="Default select example">
+                                <option>-- Select Genre --</option>
+                                <option value="1">0 - 3</option>
+                                <option value="2">4 - 6</option>
+                                <option value="3">7 - 10</option>
+                            </Form.Select>
+                        </div>
+                    </div>
+                    <button className='btn btn-primary'>Search</button>
+                </div>
 
 
             </React.Fragment>
