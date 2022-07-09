@@ -6,10 +6,11 @@ import NewMangaReview from './NewMangaReview'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-gj9n7el4lj3.ws-us53.gitpod.io/'
-    
+    url = 'https://8888-hellorave-project2expre-9z0wpwj9zjo.ws-us53.gitpod.io/'
+
     state = {
         data: [], // to be used to display manga cards
+        newManga: {},
         active: 'add-new-manga',
         title: '',
         author_id: '',
@@ -26,7 +27,9 @@ export default class LandingPage extends React.Component {
         mainCharacters: '',
         supportingCharacters: '',
         rating: '',
-        allGenre: []
+        allGenre: [],
+        toReview: false,
+        toAdd: false
     }
 
     async componentDidMount() {
@@ -73,33 +76,60 @@ export default class LandingPage extends React.Component {
     }
 
     continueToReview = async () => {
-        const newManga = {
-            'title': this.state.title,
-            'author_name': this.state.author,
-            'genre': this.state.genre,
-            'anime_adaptation': this.state.animeAdaptation,
-            'chapters': this.state.chapters,
-            'ongoing': this.state.ongoing,
-            'published': this.state.firstPublished,
-            'serialization': this.state.serialization,
-            'volumes': this.state.volumes,
+
+        let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+
+        if (this.state.title && 
+            this.state.author &&
+            this.state.genre &&
+            /^[1-9]\d*$/.test(this.state.chapters) &&
+            dateRegex.test(this.state.firstPublished) &&
+            this.state.serialization &&
+            /^[1-9]\d*$/.test(this.state.volumes)) {
+            
+            const newManga = {
+                'title': this.state.title,
+                'author_name': this.state.author,
+                'genre': this.state.genre,
+                'anime_adaptation': this.state.animeAdaptation,
+                'chapters': this.state.chapters,
+                'ongoing': this.state.ongoing,
+                'published': this.state.firstPublished,
+                'serialization': this.state.serialization,
+                'volumes': this.state.volumes,
+            }
+
+            await this.setState({
+                newManga: newManga, 
+                active: '',
+                toReview: true
+            })
+        } else {
+            this.setState({
+                toReview: true
+            })
         }
 
-        await this.setState({
-            data: [...this.state.data, newManga], //refined the newManga - else will be displayed after setState
-            active: ''
-        })
 
-        console.log(this.state.data[this.state.data.length - 1])
+    }
+
+    backToFirstPage = () => {
+        this.setState({
+            active: 'add-new-manga'
+        })
     }
 
     addNewManga = async () => {
         try {
 
-            let authorResponse = await axios.get(this.url + 'find_author/' + this.state.author) // ERROR if author not keyed in
+            let authorResponse
+
+            if (this.state.author) {
+                authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
+            }
 
             let response = await axios.post(this.url + 'add_new_manga', {
-                // 'author_id': authorResponse.data[0]._id ? authorResponse.data[0]._id : '', - ERROR if no author matched 
+                'author_id': authorResponse.data[0] ? authorResponse.data[0]._id : '',
                 'title': this.state.title,
                 'author_name': this.state.author,
                 'description': this.state.description,
@@ -116,10 +146,8 @@ export default class LandingPage extends React.Component {
                 'rating': this.state.rating
             })
 
-            let lastIndex = this.state.data.length - 1
-            let lastAdded = this.state.data[lastIndex]
-            lastAdded = {
-                ...lastAdded,
+            let lastAdded = {
+                ...this.state.newManga,
                 _id: response.data.insertedId,
                 'plot': this.state.plot,
                 'main_characters': this.state.mainCharacters,
@@ -128,12 +156,17 @@ export default class LandingPage extends React.Component {
             }
 
             this.setState({
-                data: [...this.state.data.slice(0, lastIndex), lastAdded]
+                data: [...this.state.data, lastAdded],
+                active: 'add-new-manga'
             })
 
             alert('Completed')
         } catch (e) {
             alert('Error')
+
+            this.setState({
+                toAdd: true
+            })
         }
     }
 
@@ -185,6 +218,7 @@ export default class LandingPage extends React.Component {
                         serialization={this.state.serialization}
                         ongoing={this.state.ongoing}
                         animeAdaptation={this.state.animeAdaptation}
+                        toReview={this.state.toReview}
                         updateFormField={this.updateFormField}
                         updateGenre={this.updateGenre}
                         updateNumberFormField={this.updateNumberFormField}
@@ -197,8 +231,10 @@ export default class LandingPage extends React.Component {
                         mainCharacters={this.state.mainCharacters}
                         supportingCharacters={this.state.supportingCharacters}
                         rating={this.state.rating}
+                        toAdd={this.state.toAdd}
                         updateFormField={this.updateFormField}
                         updateNumberFormField={this.updateNumberFormField}
+                        backToFirstPage={this.backToFirstPage}
                         confirmAdd={this.addNewManga} />
                 }
 
