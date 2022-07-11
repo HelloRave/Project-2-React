@@ -31,6 +31,7 @@ export default class LandingPage extends React.Component {
         allGenre: [],
         toReview: false,
         toAdd: false,
+        beingUpdated: {},
         beingDeleted: {}
     }
 
@@ -183,9 +184,63 @@ export default class LandingPage extends React.Component {
         if (manga._id === this.state.beingDeleted._id) {
             return (
                 <React.Fragment>
-                    <p>Manga being deleted: {manga.title}</p>
+                    <div id='card' className='container col-12 col-sm-6 col-md-4 p-0'>
+                        <div>Manga being deleted: {manga.title}</div>
+                        <button className='btn btn-primary btn-sm'
+                                onClick={() => {
+                                    this.setState({
+                                        beingDeleted: {}
+                                    })
+                                }}>Back</button>
+                        <button className='btn btn-danger btn-sm'>Confirm</button>
+                    </div>
                 </React.Fragment>
             )
+        } else if (manga._id === this.state.beingUpdated._id) {
+            return (
+                <React.Fragment>
+                    <div id='card' className='container col-12 col-sm-6 col-md-4 p-0'>
+                        Manga being deleted: {manga.title}
+                        <div className='row my-3'>
+                            <div>
+                                <label className='form-label'>Image</label>
+                                <input type="text"
+                                    className='form-control' />
+                            </div>
+                        </div>
+                        <div className='row my-3'>
+                            <div className='col-6'>
+                                <label className='form-label'>Title</label>
+                                <input type='text'
+                                    className='form-control'
+                                    name='title' />
+                            </div>
+                            <div className='col-6'>
+                                <label className='form-label'>Author</label>
+                                <input type='text'
+                                    className='form-control'
+                                    name='author' />
+                            </div>
+                        </div>
+                        <button className='btn btn-primary btn-sm'
+                                onClick={() => {
+                                    this.setState({
+                                        beingUpdated: {}
+                                    })
+                                }}>Back</button>
+                        <button className='btn btn-danger btn-sm'>Confirm</button>
+                    </div>
+                </React.Fragment>
+            )
+        } else {
+            return <DisplayManga obj={manga}
+                beingUpdated={() => {
+                    this.setState({
+                        beingUpdated: manga
+                    })
+                }
+                }
+                beingDeleted={this.beingDeleted} />
         }
     }
 
@@ -217,47 +272,48 @@ export default class LandingPage extends React.Component {
                 </Navbar>
 
                 {/* Manga Display */}
-                {this.state.data.map((manga) => {
-                    return (
-                        this.mangaCardDisplay(manga)
-                    )
-                })}
-
-                <DisplayManga data={this.state.data}
-                    beingDeleted={this.beingDeleted} />
-
+                <div className='container'>
+                    <div className='row gy-4'>
+                        {this.state.data.map((obj) => {
+                            return (
+                                this.mangaCardDisplay(obj)
+                            )
+                        })}
+                    </div>
+                </div>
 
                 {/* Add New Manga */}
-                {this.state.active === 'add-new-manga' ?
-                    <AddNewManga title={this.state.title}
-                        author={this.state.author}
-                        description={this.state.description}
-                        allGenre={this.state.allGenre}
-                        genre={this.state.genre}
-                        firstPublished={this.state.firstPublished}
-                        volumes={this.state.volumes}
-                        chapters={this.state.chapters}
-                        serialization={this.state.serialization}
-                        ongoing={this.state.ongoing}
-                        animeAdaptation={this.state.animeAdaptation}
-                        toReview={this.state.toReview}
-                        updateFormField={this.updateFormField}
-                        updateGenre={this.updateGenre}
-                        updateNumberFormField={this.updateNumberFormField}
-                        updateBooleanFormField={this.updateBooleanFormField}
-                        continueToReview={this.continueToReview} />
+                {
+                    this.state.active === 'add-new-manga' ?
+                        <AddNewManga title={this.state.title}
+                            author={this.state.author}
+                            description={this.state.description}
+                            allGenre={this.state.allGenre}
+                            genre={this.state.genre}
+                            firstPublished={this.state.firstPublished}
+                            volumes={this.state.volumes}
+                            chapters={this.state.chapters}
+                            serialization={this.state.serialization}
+                            ongoing={this.state.ongoing}
+                            animeAdaptation={this.state.animeAdaptation}
+                            toReview={this.state.toReview}
+                            updateFormField={this.updateFormField}
+                            updateGenre={this.updateGenre}
+                            updateNumberFormField={this.updateNumberFormField}
+                            updateBooleanFormField={this.updateBooleanFormField}
+                            continueToReview={this.continueToReview} />
 
-                    :
+                        :
 
-                    <NewMangaReview plot={this.state.plot}
-                        mainCharacters={this.state.mainCharacters}
-                        supportingCharacters={this.state.supportingCharacters}
-                        rating={this.state.rating}
-                        toAdd={this.state.toAdd}
-                        updateFormField={this.updateFormField}
-                        updateNumberFormField={this.updateNumberFormField}
-                        backToFirstPage={this.backToFirstPage}
-                        confirmAdd={this.addNewManga} />
+                        <NewMangaReview plot={this.state.plot}
+                            mainCharacters={this.state.mainCharacters}
+                            supportingCharacters={this.state.supportingCharacters}
+                            rating={this.state.rating}
+                            toAdd={this.state.toAdd}
+                            updateFormField={this.updateFormField}
+                            updateNumberFormField={this.updateNumberFormField}
+                            backToFirstPage={this.backToFirstPage}
+                            confirmAdd={this.addNewManga} />
                 }
 
                 {/* Filter */}
