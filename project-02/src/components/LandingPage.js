@@ -3,10 +3,11 @@ import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstr
 import axios from 'axios'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
+import DisplayManga from './DisplayManga'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-9z0wpwj9zjo.ws-us53.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-gqp481jqux4.ws-us53.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
@@ -29,7 +30,8 @@ export default class LandingPage extends React.Component {
         rating: '',
         allGenre: [],
         toReview: false,
-        toAdd: false
+        toAdd: false,
+        beingDeleted: {}
     }
 
     async componentDidMount() {
@@ -79,14 +81,14 @@ export default class LandingPage extends React.Component {
 
         let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
 
-        if (this.state.title && 
+        if (this.state.title &&
             this.state.author &&
             this.state.genre &&
             /^[1-9]\d*$/.test(this.state.chapters) &&
             dateRegex.test(this.state.firstPublished) &&
             this.state.serialization &&
             /^[1-9]\d*$/.test(this.state.volumes)) {
-            
+
             const newManga = {
                 'title': this.state.title,
                 'author_name': this.state.author,
@@ -100,7 +102,7 @@ export default class LandingPage extends React.Component {
             }
 
             await this.setState({
-                newManga: newManga, 
+                newManga: newManga,
                 active: '',
                 toReview: true
             })
@@ -170,9 +172,27 @@ export default class LandingPage extends React.Component {
         }
     }
 
+
+    beingDeleted = (manga) => {
+        this.setState({
+            beingDeleted: manga
+        })
+    }
+
+    mangaCardDisplay = (manga) => {
+        if (manga._id === this.state.beingDeleted._id) {
+            return (
+                <React.Fragment>
+                    <p>Manga being deleted: {manga.title}</p>
+                </React.Fragment>
+            )
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
+                {/* NavBar */}
                 <Navbar bg="dark" variant='dark' expand="sm">
                     <Container>
                         <Navbar.Brand href="#home" className='me-auto'>XXXX</Navbar.Brand>
@@ -195,17 +215,19 @@ export default class LandingPage extends React.Component {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <div>
-                    {this.state.data.map((obj) => {
-                        return (
-                            <React.Fragment key={obj._id}>
-                                <p>{obj.title}</p>
-                                <p>{obj.published}</p>
-                            </React.Fragment>
 
-                        )
-                    })}
-                </div>
+                {/* Manga Display */}
+                {this.state.data.map((manga) => {
+                    return (
+                        this.mangaCardDisplay(manga)
+                    )
+                })}
+
+                <DisplayManga data={this.state.data}
+                    beingDeleted={this.beingDeleted} />
+
+
+                {/* Add New Manga */}
                 {this.state.active === 'add-new-manga' ?
                     <AddNewManga title={this.state.title}
                         author={this.state.author}
@@ -238,6 +260,7 @@ export default class LandingPage extends React.Component {
                         confirmAdd={this.addNewManga} />
                 }
 
+                {/* Filter */}
                 <div className='container'>
                     <div className='row'>
                         <div className='col-6'>
