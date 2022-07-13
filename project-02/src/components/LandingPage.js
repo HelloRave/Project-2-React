@@ -87,6 +87,7 @@ export default class LandingPage extends React.Component {
         if (urlRegex.test(this.state.url) && 
             this.state.title &&
             this.state.author &&
+            this.state.description && 
             this.state.genre &&
             /^[1-9]\d*$/.test(this.state.chapters) &&
             dateRegex.test(this.state.firstPublished) &&
@@ -97,6 +98,7 @@ export default class LandingPage extends React.Component {
                 'url': this.state.url,
                 'title': this.state.title,
                 'author_name': this.state.author,
+                'description': this.state.description,
                 'genre': this.state.genre,
                 'anime_adaptation': this.state.animeAdaptation,
                 'chapters': this.state.chapters,

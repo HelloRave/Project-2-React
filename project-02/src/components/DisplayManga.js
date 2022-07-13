@@ -11,7 +11,7 @@ export default function DisplayManga(props) {
 
     return (
         <React.Fragment key={props.obj._id}>
-            <div id='card' className='col-12 col-sm-6 col-md-4'>
+            <div id='card' className='col-12 col-sm-6 col-lg-4'>
                 <div className='card-sub-div border'>
                     <div id='card-title' className='d-flex justify-content-center align-items-center'>{props.obj.title}</div>
                     <div id='manga-chapters' className='d-flex justify-content-center align-items-center'> Volumes: {props.obj.volumes} | Chapters: {props.obj.chapters} | Ongoing: {props.obj.ongoing ? 'Yes' : 'No'}</div>
