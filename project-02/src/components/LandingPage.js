@@ -7,12 +7,13 @@ import DisplayManga from './DisplayManga'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-gqp481jqux4.ws-us53.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-blxt1c2m6vw.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
         newManga: {},
         active: 'add-new-manga',
+        url: '', 
         title: '',
         author_id: '',
         author: '',
@@ -81,8 +82,10 @@ export default class LandingPage extends React.Component {
     continueToReview = async () => {
 
         let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+        let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
-        if (this.state.title &&
+        if (urlRegex.test(this.state.url) && 
+            this.state.title &&
             this.state.author &&
             this.state.genre &&
             /^[1-9]\d*$/.test(this.state.chapters) &&
@@ -91,6 +94,7 @@ export default class LandingPage extends React.Component {
             /^[1-9]\d*$/.test(this.state.volumes)) {
 
             const newManga = {
+                'url': this.state.url,
                 'title': this.state.title,
                 'author_name': this.state.author,
                 'genre': this.state.genre,
@@ -133,6 +137,7 @@ export default class LandingPage extends React.Component {
 
             let response = await axios.post(this.url + 'add_new_manga', {
                 'author_id': authorResponse.data[0] ? authorResponse.data[0]._id : '',
+                'url': this.state.url,
                 'title': this.state.title,
                 'author_name': this.state.author,
                 'description': this.state.description,
@@ -174,10 +179,10 @@ export default class LandingPage extends React.Component {
     }
 
 
-    beingDeleted = (manga) => {
+    beingDeleted = (manga, callBackFunction) => {
         this.setState({
             beingDeleted: manga
-        })
+        }, callBackFunction)
     }
 
     mangaCardDisplay = (manga) => {
@@ -273,7 +278,7 @@ export default class LandingPage extends React.Component {
 
                 {/* Manga Display */}
                 <div className='container'>
-                    <div className='row gy-4'>
+                    <div className='row g-4'>
                         {this.state.data.map((obj) => {
                             return (
                                 this.mangaCardDisplay(obj)
@@ -285,7 +290,8 @@ export default class LandingPage extends React.Component {
                 {/* Add New Manga */}
                 {
                     this.state.active === 'add-new-manga' ?
-                        <AddNewManga title={this.state.title}
+                        <AddNewManga url={this.state.url}
+                            title={this.state.title}
                             author={this.state.author}
                             description={this.state.description}
                             allGenre={this.state.allGenre}

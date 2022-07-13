@@ -3,14 +3,18 @@ import React from 'react'
 export default function AddNewManga(props) {
 
     let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+    let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
     return (
         <div className='container'>
             <div className='row my-3'>
                 <div>
-                    <label className='form-label'>Image</label>
+                    <label className='form-label'>Image {!props.url && props.toReview ? <span>* Required field</span> : null} {props.url !== '' && !urlRegex.test(props.url) && props.toReview ? <span>* Invalid url</span> : null}</label>
                     <input type="text"
-                        className='form-control' />
+                        className='form-control'
+                        name='url'
+                        value={props.url}
+                        onChange={props.updateFormField} />
                 </div>
             </div>
             <div className='row my-3'>

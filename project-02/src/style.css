@@ -1,6 +1,9 @@
 #card{
-    border: 1px solid black;
-    height: 50vh
+    height: 60vh
+}
+
+.card-sub-div{
+    height: 100%
 }
 
 #card-title{
@@ -27,12 +30,22 @@
 }
 
 #manga-image{
-    background-color: aquamarine;
+    height: 100%;
+}
+
+#manga-image img{
+    height: 100%;
+    width: 100%
 }
 
 #manga-description{
-    background-color: coral;
+    height: 100%;
+    overflow: hidden;
 }
+
+#manga-description:hover {
+    overflow-y: scroll;
+  }
 
 #buttons{
     background-color: bisque;
