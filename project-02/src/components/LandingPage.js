@@ -7,13 +7,13 @@ import DisplayManga from './DisplayManga'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-blxt1c2m6vw.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-lzadg6so0ar.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
         newManga: {},
         active: 'add-new-manga',
-        url: '', 
+        url: '',
         title: '',
         author_id: '',
         author: '',
@@ -32,7 +32,11 @@ export default class LandingPage extends React.Component {
         allGenre: [],
         toReview: false,
         toAdd: false,
+        displayUpdate: false,
         beingUpdated: {},
+        updatedUrl: '',
+        updatedTitle: '',
+        updatedAuthor: '', 
         beingDeleted: {}
     }
 
@@ -84,10 +88,10 @@ export default class LandingPage extends React.Component {
         let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
         let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
-        if (urlRegex.test(this.state.url) && 
+        if (urlRegex.test(this.state.url) &&
             this.state.title &&
             this.state.author &&
-            this.state.description && 
+            this.state.description &&
             this.state.genre &&
             /^[1-9]\d*$/.test(this.state.chapters) &&
             dateRegex.test(this.state.firstPublished) &&
@@ -180,77 +184,6 @@ export default class LandingPage extends React.Component {
         }
     }
 
-
-    beingDeleted = (manga, callBackFunction) => {
-        this.setState({
-            beingDeleted: manga
-        }, callBackFunction)
-    }
-
-    mangaCardDisplay = (manga) => {
-        if (manga._id === this.state.beingDeleted._id) {
-            return (
-                <React.Fragment>
-                    <div id='card' className='container col-12 col-sm-6 col-md-4 p-0'>
-                        <div>Manga being deleted: {manga.title}</div>
-                        <button className='btn btn-primary btn-sm'
-                                onClick={() => {
-                                    this.setState({
-                                        beingDeleted: {}
-                                    })
-                                }}>Back</button>
-                        <button className='btn btn-danger btn-sm'>Confirm</button>
-                    </div>
-                </React.Fragment>
-            )
-        } else if (manga._id === this.state.beingUpdated._id) {
-            return (
-                <React.Fragment>
-                    <div id='card' className='container col-12 col-sm-6 col-md-4 p-0'>
-                        Manga being deleted: {manga.title}
-                        <div className='row my-3'>
-                            <div>
-                                <label className='form-label'>Image</label>
-                                <input type="text"
-                                    className='form-control' />
-                            </div>
-                        </div>
-                        <div className='row my-3'>
-                            <div className='col-6'>
-                                <label className='form-label'>Title</label>
-                                <input type='text'
-                                    className='form-control'
-                                    name='title' />
-                            </div>
-                            <div className='col-6'>
-                                <label className='form-label'>Author</label>
-                                <input type='text'
-                                    className='form-control'
-                                    name='author' />
-                            </div>
-                        </div>
-                        <button className='btn btn-primary btn-sm'
-                                onClick={() => {
-                                    this.setState({
-                                        beingUpdated: {}
-                                    })
-                                }}>Back</button>
-                        <button className='btn btn-danger btn-sm'>Confirm</button>
-                    </div>
-                </React.Fragment>
-            )
-        } else {
-            return <DisplayManga obj={manga}
-                beingUpdated={() => {
-                    this.setState({
-                        beingUpdated: manga
-                    })
-                }
-                }
-                beingDeleted={this.beingDeleted} />
-        }
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -279,15 +212,79 @@ export default class LandingPage extends React.Component {
                 </Navbar>
 
                 {/* Manga Display */}
-                <div className='container'>
-                    <div className='row g-4'>
-                        {this.state.data.map((obj) => {
-                            return (
-                                this.mangaCardDisplay(obj)
-                            )
-                        })}
+                {this.state.beingUpdated._id ?
+
+
+                    <div className='container border'>
+
+                        <div className='d-flex justify-content-center align-items-center'>
+                            <img src={this.state.beingUpdated.url} alt='manga-cover' />
+                        </div>
+
+                        <div>
+                            <label className='form-label'>Image</label>
+                            <input type="text"
+                                className='form-control'
+                                name='updatedUrl'
+                                value={this.state.updatedUrl}
+                                onChange={this.updateFormField} />
+                        </div>
+
+                        <div className='row'>
+                            <div className='col'>
+                                <label className='form-label'>Title</label>
+                                <input type="text"
+                                    className='form-control'
+                                    name='updatedTitle'
+                                    value={this.state.updatedTitle}
+                                    onChange={this.updateFormField} />
+                            </div>
+                            <div className='col'>
+                                <label className='form-label'>Author</label>
+                                <input type="text"
+                                    className='form-control'
+                                    name='updatedAuthor'
+                                    value={this.state.updatedAuthor}
+                                    onChange={this.updateFormField} />
+                            </div>
+                        </div>
+
+                        <button className='btn btn-primary btn-sm'
+                            onClick={() => {
+                                this.setState({
+                                    beingUpdated: {}
+                                })
+                            }}>Back</button>
+                        <button className='btn btn-danger btn-sm'>Confirm</button>
                     </div>
-                </div>
+
+                    :
+
+                    <div className='container'>
+                        <div className='row g-4'>
+                            {this.state.data.map((obj) => {
+                                return (
+                                    <DisplayManga obj={obj}
+                                        beingUpdated={() => {
+                                            this.setState({
+                                                beingUpdated: obj,
+                                                updatedUrl: obj.url,
+                                                updatedTitle: obj.title,
+                                                updatedAuthor: obj.author.name
+                                            })
+                                        }
+                                        }
+                                        beingDeleted={() => {
+                                            this.setState({
+                                                beingDeleted: obj
+                                            })
+                                        }} />
+                                )
+                            })}
+                        </div>
+                    </div>
+                }
+
 
                 {/* Add New Manga */}
                 {

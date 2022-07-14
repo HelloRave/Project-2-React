@@ -29,7 +29,7 @@ export default function DisplayManga(props) {
                         <button className='btn btn-warning btn-sm'
                             onClick={props.beingUpdated}>Update</button>
                         <button className='btn btn-danger btn-sm'
-                            onClick={() => { props.beingDeleted(props.obj, handleShow) }}>Delete</button>
+                            onClick={() => { props.beingDeleted(props.obj) }}>Delete</button>
 
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
