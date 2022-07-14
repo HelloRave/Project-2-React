@@ -1,9 +1,11 @@
 import React from 'react'
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap'
+import Multiselect from 'multiselect-react-dropdown'
 import axios from 'axios'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
 import DisplayManga from './DisplayManga'
+
 
 export default class LandingPage extends React.Component {
 
@@ -36,7 +38,9 @@ export default class LandingPage extends React.Component {
         beingUpdated: {},
         updatedUrl: '',
         updatedTitle: '',
-        updatedAuthor: '', 
+        updatedAuthor: '',
+        options: [{ name: 'Option 1' }, { name: 'Option 2' }],
+        selectedValue: [],
         beingDeleted: {}
     }
 
@@ -184,6 +188,14 @@ export default class LandingPage extends React.Component {
         }
     }
 
+    onSelect(selectedList, selectedItem) {
+        console.log(selectedList, selectedItem)
+    }
+
+    onRemove(selectedList, removedItem) {
+        console.log(selectedList, removedItem)
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -249,6 +261,19 @@ export default class LandingPage extends React.Component {
                             </div>
                         </div>
 
+                        <div>
+                            <Multiselect
+                                options={this.state.options}
+                                selectedValues={this.state.selectedValue}
+                                onSelect={this.onSelect}
+                                onRemove={this.onRemove}
+                                displayValue="name"
+                            />
+
+                            {/* https://www.npmjs.com/package/multiselect-react-dropdown */}
+                        </div>
+
+
                         <button className='btn btn-primary btn-sm'
                             onClick={() => {
                                 this.setState({
@@ -270,7 +295,13 @@ export default class LandingPage extends React.Component {
                                                 beingUpdated: obj,
                                                 updatedUrl: obj.url,
                                                 updatedTitle: obj.title,
-                                                updatedAuthor: obj.author.name
+                                                updatedAuthor: obj.author.name,
+                                                options: this.state.allGenre.map((obj) => {
+                                                    return { name: obj.value, id: obj.value }
+                                                }),
+                                                selectedValue: obj.genre.map((str) => {
+                                                    return { name: str, id: str }
+                                                })
                                             })
                                         }
                                         }
