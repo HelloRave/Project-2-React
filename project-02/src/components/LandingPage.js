@@ -264,7 +264,8 @@ export default class LandingPage extends React.Component {
                                         this.setState({
                                             beingDeleted: obj
                                         })
-                                    }} />
+                                    }
+                                    }/>
                             )
                         })}
                     </div>
