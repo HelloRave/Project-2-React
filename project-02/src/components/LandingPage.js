@@ -224,7 +224,26 @@ export default class LandingPage extends React.Component {
                 'volumes': this.state.updatedVolumes,
             })
 
+            this.setState({
+                active: 'display'
+            })
+
             alert('Completed')
+        } catch (e) {
+            alert('Error')
+        }
+    }
+
+    confirmDelete = () => {
+        try {
+            let index = this.state.data.findIndex((manga) => {
+                return manga._id === this.state.beingDeleted._id
+            })
+
+            this.setState({
+                data: [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)]
+            })
+
         } catch (e) {
             alert('Error')
         }
@@ -265,7 +284,8 @@ export default class LandingPage extends React.Component {
                                             beingDeleted: obj
                                         })
                                     }
-                                    }/>
+                                    }
+                                    confirmDelete={this.confirmDelete}/>
                             )
                         })}
                     </div>

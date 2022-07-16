@@ -30,7 +30,7 @@ export default function DisplayManga(props) {
                             Delete
                         </button>
 
-                        <div className="modal fade" id="confirmDeletePopUp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div className="modal fade" id="confirmDeletePopUp" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-body d-flex justify-content-between align-items-center">
@@ -45,7 +45,9 @@ export default function DisplayManga(props) {
                                             className="btn btn-secondary" 
                                             data-bs-dismiss="modal">Close</button>
                                         <button type="button" 
-                                            className="btn btn-danger">Understood</button>
+                                            className="btn btn-danger"
+                                            data-bs-dismiss="modal"
+                                            onClick={props.confirmDelete}>Understood</button>
                                     </div>
                                 </div>
                             </div>
