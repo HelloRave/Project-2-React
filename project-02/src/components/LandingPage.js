@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container, Form} from 'react-bootstrap'
+import { Navbar, Nav, Container, Form } from 'react-bootstrap'
 import axios from 'axios'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
@@ -14,7 +14,7 @@ export default class LandingPage extends React.Component {
     state = {
         data: [], // to be used to display manga cards
         newManga: {},
-        active: 'add-new-manga',
+        active: 'display',
         url: '',
         title: '',
         author_id: '',
@@ -137,9 +137,9 @@ export default class LandingPage extends React.Component {
 
     }
 
-    backToFirstPage = () => {
+    changePage = (page) => {
         this.setState({
-            active: 'add-new-manga'
+            active: page
         })
     }
 
@@ -230,132 +230,49 @@ export default class LandingPage extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <React.Fragment>
-                {/* NavBar */}
-                <Navbar bg="dark" variant='dark' expand="sm">
-                    <Container>
-                        <Navbar.Brand href="#home" className='me-auto'>XXXX</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="d-sm-none">
-                                <Nav.Link href="#home" className='text-center'>Home</Nav.Link>
-                                <Nav.Link href="#link" className='text-center'>Search</Nav.Link>
-                                <Nav.Link href="#link" className='text-center'>Add New</Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
-
-                {/* Manga Display */}
-                {this.state.beingUpdated._id ?
-
-
-                    <UpdateManga key={this.state.beingUpdated._id}
-                        beingUpdated={this.state.beingUpdated}
-                        updatedUrl={this.state.updatedUrl}
-                        updatedTitle={this.state.updatedTitle}
-                        updatedAuthor={this.state.updatedAuthor}
-                        options={this.state.options}
-                        selectedValue={this.state.selectedValue}
-                        avoidHighlightFirstOption={true}
-                        hidePlaceholder={true}
-                        onSelect={this.onSelect}
-                        onRemove={this.onRemove}
-                        updatedDescription={this.state.updatedDescription}
-                        updatedFirstPublished={this.state.updatedFirstPublished}
-                        updatedVolumes={this.state.updatedVolumes}
-                        updatedChapters={this.state.updatedChapters}
-                        updatedSerialization={this.state.updatedSerialization}
-                        updatedOngoing={this.state.updatedOngoing}
-                        updatedAnimeAdaptation={this.state.updatedAnimeAdaptation}
-                        updateNumberFormField={this.updateNumberFormField}
-                        updateFormField={this.updateFormField}
-                        updateBooleanFormField={this.updateBooleanFormField}
-                        back={() => {
-                            this.setState({
-                                beingUpdated: {}
-                            })
-                        }}
-                        confirmUpdate={this.confirmUpdate} />
-
-                    :
-
-                    <div className='container'>
-                        <div className='row g-4'>
-                            {this.state.data.map((obj) => {
-                                return (
-                                    <DisplayManga obj={obj}
-                                        beingUpdated={() => {
-                                            this.setState({
-                                                beingUpdated: obj,
-                                                updatedUrl: obj.url,
-                                                updatedTitle: obj.title,
-                                                updatedAuthor: obj.author.name,
-                                                options: this.state.allGenre.map((obj) => {
-                                                    return { name: obj.value, id: obj.value }
-                                                }),
-                                                selectedValue: obj.genre.map((str) => {
-                                                    return { name: str, id: str }
-                                                }),
-                                                updatedFirstPublished: obj.published,
-                                                updatedVolumes: obj.volumes,
-                                                updatedChapters: obj.chapters,
-                                                updatedSerialization: obj.serialization,
-                                                updatedOngoing: obj.ongoing,
-                                                updatedAnimeAdaptation: obj.anime_adaptation
-                                            })
-                                        }
-                                        }
-                                        beingDeleted={() => {
-                                            this.setState({
-                                                beingDeleted: obj
-                                            })
-                                        }} />
-                                )
-                            })}
-                        </div>
+    renderPage = () => {
+        if (this.state.active === 'display') {
+            return (
+                <div className='container'>
+                    <div className='row g-4'>
+                        {this.state.data.map((obj) => {
+                            return (
+                                <DisplayManga obj={obj}
+                                    beingUpdated={() => {
+                                        this.setState({
+                                            active: 'update-manga',
+                                            beingUpdated: obj,
+                                            updatedUrl: obj.url,
+                                            updatedTitle: obj.title,
+                                            updatedAuthor: obj.author.name,
+                                            options: this.state.allGenre.map((obj) => {
+                                                return { name: obj.value, id: obj.value }
+                                            }),
+                                            selectedValue: obj.genre.map((str) => {
+                                                return { name: str, id: str }
+                                            }),
+                                            updatedFirstPublished: obj.published,
+                                            updatedVolumes: obj.volumes,
+                                            updatedChapters: obj.chapters,
+                                            updatedSerialization: obj.serialization,
+                                            updatedOngoing: obj.ongoing,
+                                            updatedAnimeAdaptation: obj.anime_adaptation
+                                        })
+                                    }
+                                    }
+                                    beingDeleted={() => {
+                                        this.setState({
+                                            beingDeleted: obj
+                                        })
+                                    }} />
+                            )
+                        })}
                     </div>
-                }
-
-
-                {/* Add New Manga */}
-                {
-                    this.state.active === 'add-new-manga' ?
-                        <AddNewManga url={this.state.url}
-                            title={this.state.title}
-                            author={this.state.author}
-                            description={this.state.description}
-                            allGenre={this.state.allGenre}
-                            genre={this.state.genre}
-                            firstPublished={this.state.firstPublished}
-                            volumes={this.state.volumes}
-                            chapters={this.state.chapters}
-                            serialization={this.state.serialization}
-                            ongoing={this.state.ongoing}
-                            animeAdaptation={this.state.animeAdaptation}
-                            toReview={this.state.toReview}
-                            updateFormField={this.updateFormField}
-                            updateGenre={this.updateGenre}
-                            updateNumberFormField={this.updateNumberFormField}
-                            updateBooleanFormField={this.updateBooleanFormField}
-                            continueToReview={this.continueToReview} />
-
-                        :
-
-                        <NewMangaReview plot={this.state.plot}
-                            mainCharacters={this.state.mainCharacters}
-                            supportingCharacters={this.state.supportingCharacters}
-                            rating={this.state.rating}
-                            toAdd={this.state.toAdd}
-                            updateFormField={this.updateFormField}
-                            updateNumberFormField={this.updateNumberFormField}
-                            backToFirstPage={this.backToFirstPage}
-                            confirmAdd={this.addNewManga} />
-                }
-
-                {/* Filter */}
+                </div>
+            )
+        }
+        else if (this.state.active === 'search') {
+            return (
                 <div className='container'>
                     <div className='row'>
                         <div className='col-6'>
@@ -415,8 +332,110 @@ export default class LandingPage extends React.Component {
                     </div>
                     <button className='btn btn-primary'>Search</button>
                 </div>
+            )
+        }
+        else if (this.state.active === 'update-manga') {
+            return (<UpdateManga key={this.state.beingUpdated._id}
+                beingUpdated={this.state.beingUpdated}
+                updatedUrl={this.state.updatedUrl}
+                updatedTitle={this.state.updatedTitle}
+                updatedAuthor={this.state.updatedAuthor}
+                options={this.state.options}
+                selectedValue={this.state.selectedValue}
+                avoidHighlightFirstOption={true}
+                hidePlaceholder={true}
+                onSelect={this.onSelect}
+                onRemove={this.onRemove}
+                updatedDescription={this.state.updatedDescription}
+                updatedFirstPublished={this.state.updatedFirstPublished}
+                updatedVolumes={this.state.updatedVolumes}
+                updatedChapters={this.state.updatedChapters}
+                updatedSerialization={this.state.updatedSerialization}
+                updatedOngoing={this.state.updatedOngoing}
+                updatedAnimeAdaptation={this.state.updatedAnimeAdaptation}
+                updateNumberFormField={this.updateNumberFormField}
+                updateFormField={this.updateFormField}
+                updateBooleanFormField={this.updateBooleanFormField}
+                back={() => {
+                    this.setState({
+                        active: 'display'
+                    })
+                }}
+                confirmUpdate={this.confirmUpdate} />
+            )
+        }
+        else if (this.state.active === 'add-new-manga') {
+            return (
+                <AddNewManga url={this.state.url}
+                    title={this.state.title}
+                    author={this.state.author}
+                    description={this.state.description}
+                    allGenre={this.state.allGenre}
+                    genre={this.state.genre}
+                    firstPublished={this.state.firstPublished}
+                    volumes={this.state.volumes}
+                    chapters={this.state.chapters}
+                    serialization={this.state.serialization}
+                    ongoing={this.state.ongoing}
+                    animeAdaptation={this.state.animeAdaptation}
+                    toReview={this.state.toReview}
+                    updateFormField={this.updateFormField}
+                    updateGenre={this.updateGenre}
+                    updateNumberFormField={this.updateNumberFormField}
+                    updateBooleanFormField={this.updateBooleanFormField}
+                    continueToReview={this.continueToReview} />
+            )
+        }
+        else if (this.state.active === 'continue-to-review') {
+            return (
+                <NewMangaReview plot={this.state.plot}
+                    mainCharacters={this.state.mainCharacters}
+                    supportingCharacters={this.state.supportingCharacters}
+                    rating={this.state.rating}
+                    toAdd={this.state.toAdd}
+                    updateFormField={this.updateFormField}
+                    updateNumberFormField={this.updateNumberFormField}
+                    backToFirstPage={() => {
+                        this.setState({
+                            active: 'add-new-manga'
+                        })
+                    }}
+                    confirmAdd={this.addNewManga} />
+            )
+        }
+    }
 
+    render() {
+        return (
+            <React.Fragment>
+                {/* NavBar */}
+                <Navbar bg="dark" variant='dark' expand="sm">
+                    <Container>
+                        <Navbar.Brand href="#" onClick={() => this.changePage('display')}>XXXX</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="ms-auto">
+                                <Nav.Link href="#"
+                                    className='text-center'
+                                    onClick={() => this.changePage('display')}>
+                                    Home
+                                </Nav.Link>
+                                <Nav.Link href="##"
+                                    className='text-center'
+                                    onClick={() => this.changePage('search')}>
+                                    Search
+                                </Nav.Link>
+                                <Nav.Link href="###"
+                                    className='text-center'
+                                    onClick={() => this.changePage('add-new-manga')}>
+                                    Add New
+                                </Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
 
+                {this.renderPage()}
             </React.Fragment>
 
         )
