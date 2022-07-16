@@ -210,7 +210,26 @@ export default class LandingPage extends React.Component {
     confirmUpdate = async () => {
         try {
 
-            let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
+            // let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
+            //     'url': this.state.updatedUrl,
+            //     'title': this.state.updatedTitle,
+            //     'author_name': this.state.updatedAuthor,
+            //     'description': this.state.updatedDescription,
+            //     'genre': this.state.selectedValue.map((obj) => obj.name),
+            //     'anime_adaptation': this.state.updatedAnimeAdaptation,
+            //     'chapters': this.state.updatedChapters,
+            //     'ongoing': this.state.updatedOngoing,
+            //     'published': this.state.updatedFirstPublished,
+            //     'serialization': this.state.updatedSerialization,
+            //     'volumes': this.state.updatedVolumes,
+            // })
+
+            let index = this.state.data.findIndex((manga) => {
+                return manga._id === this.state.beingUpdated._id
+            })
+
+            let updatedManga = {
+                '_id': this.state.beingUpdated._id, 
                 'url': this.state.updatedUrl,
                 'title': this.state.updatedTitle,
                 'author_name': this.state.updatedAuthor,
@@ -222,9 +241,15 @@ export default class LandingPage extends React.Component {
                 'published': this.state.updatedFirstPublished,
                 'serialization': this.state.updatedSerialization,
                 'volumes': this.state.updatedVolumes,
-            })
+                'reviews': this.state.beingUpdated.reviews
+            }
 
             this.setState({
+                data: [
+                    ...this.state.data.slice(0, index), 
+                    updatedManga, 
+                    ...this.state.data.slice(index + 1)
+                ],
                 active: 'display'
             })
 
