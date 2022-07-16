@@ -37,20 +37,20 @@ export default function AddNewManga(props) {
                 </div>
             </div>
             <div className='row my-3'>
-                <div className='col-6'>
+                <div className='col-12 col-md-6'>
                     <label className='form-label'>Description {!props.description && props.toReview ? <span>* Required field</span> : null}</label>
                     <textarea className='form-control'
                         name='description'
                         value={props.description}
                         onChange={props.updateFormField} ></textarea>
                 </div>
-                <div className='col-6'>
+                <div className='col-12 col-md-6 mt-3 mt-md-0'>
                     <p>Genre {props.genre.length === 0 && props.toReview ? <span>* Required field</span> : null}</p>
 
                     <div className='row'>
                         {props.allGenre.map((obj) => {
                             return (
-                                <div key={obj.value} className='col-3'>
+                                <div key={obj.value} className='col-4 col-sm-3'>
                                     <input type='checkbox'
                                         className='form-check-input'
                                         name='genre'
@@ -65,7 +65,7 @@ export default function AddNewManga(props) {
                 </div>
             </div>
             <div className='row my-3'>
-                <div className='col-4'>
+                <div className='col-6 col-sm-4'>
                     <label className='form-label'>First-published {!props.firstPublished && props.toReview ? <span>* Required field</span> : null} {props.firstPublished !== '' && !dateRegex.test(props.firstPublished) && props.toReview ? <span>* DD-MM-YYYY</span> : null}</label>
                     <input type='text'
                         className='form-control'
@@ -74,7 +74,7 @@ export default function AddNewManga(props) {
                         value={props.firstPublished}
                         onChange={props.updateFormField} />
                 </div>
-                <div className='col-4'>
+                <div className='col-6 col-sm-4'>
                     <label className='form-label'>Volumes {props.volumes === '' && props.toReview ? <span>* Required field</span> : null} {props.volumes !== '' && !/^[1-9]\d*$/.test(props.volumes) && props.toReview ? <span>* Positive integer please</span> : null}</label>
                     <input type='number'
                         className='form-control'
@@ -82,7 +82,7 @@ export default function AddNewManga(props) {
                         value={props.volumes}
                         onChange={props.updateNumberFormField} />
                 </div>
-                <div className='col-4'>
+                <div className='d-none d-sm-grid col-4'>
                     <label className='form-label'>Chapters {props.chapters === '' && props.toReview ? <span>* Required field</span> : null} {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span>* Positive integer please</span> : null}</label>
                     <input type='number'
                         className='form-control'
@@ -92,7 +92,15 @@ export default function AddNewManga(props) {
                 </div>
             </div>
             <div className='row my-3'>
-                <div className='col-4'>
+                <div className='d-sm-none col-6'>
+                    <label className='form-label'>Chapters {props.chapters === '' && props.toReview ? <span>* Required field</span> : null} {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span>* Positive integer please</span> : null}</label>
+                    <input type='number'
+                        className='form-control'
+                        name='chapters'
+                        value={props.chapters}
+                        onChange={props.updateNumberFormField} />
+                </div>
+                <div className='col-6 col-sm-4'>
                     <label className='form-label'>Serialization {!props.serialization && props.toReview ? <span>* Required field</span> : null}</label>
                     <input type='text'
                         className='form-control'
@@ -100,7 +108,7 @@ export default function AddNewManga(props) {
                         value={props.serialization}
                         onChange={props.updateFormField} />
                 </div>
-                <div className='col-4'>
+                <div className='col-6 col-sm-4 mt-3 mt-sm-0'>
                     <p>Ongoing</p>
 
                     <input type='radio'
@@ -119,7 +127,7 @@ export default function AddNewManga(props) {
                         onChange={props.updateBooleanFormField} />
                     <label className='form-check-label ms-2'>No</label>
                 </div>
-                <div className='col-4'>
+                <div className='col-6 col-sm-4 mt-3 mt-sm-0'>
                     <p>Anime Adaptation</p>
 
                     <input type='radio'
