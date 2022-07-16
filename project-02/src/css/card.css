@@ -1,0 +1,67 @@
+#card {
+    height: 60vh;
+}
+
+.card-sub-div {
+    height: 100%;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.card-sub-div:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+#card-title {
+    height: 15%;
+    font-weight: bold;
+    color: rgb(29,67,155); 
+}
+
+#manga-chapters {
+    background-color: rgb(249,249,249);
+    height: 10%;
+    overflow-y: scroll;
+}
+
+#manga-chapters::-webkit-scrollbar {
+    display: none;
+}
+
+#genre-badges {
+    height: 10%;
+    background-color: rgb(239,239,239)
+}
+
+#manga-details {
+    height: 55%
+}
+
+#manga-image {
+    height: 100%;
+}
+
+#manga-image img {
+    height: 100%;
+    width: 100%
+}
+
+#manga-description {
+    height: 100%;
+    overflow: hidden;
+}
+
+#manga-description:hover {
+    overflow-y: scroll;
+}
+
+#buttons {
+    background-color: rgb(249,249,249);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 10%
+}
+
+.btn-group-sm>.btn, .btn-sm{
+    padding: 0.1rem 0.5rem;
+}
