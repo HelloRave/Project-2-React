@@ -1,15 +1,15 @@
 import React from 'react'
-import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap'
-import Multiselect from 'multiselect-react-dropdown'
+import { Navbar, Nav, Container, Form} from 'react-bootstrap'
 import axios from 'axios'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
 import DisplayManga from './DisplayManga'
+import UpdateManga from './UpdateManga'
 
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-lzadg6so0ar.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-tq7dop0693t.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
@@ -39,8 +39,15 @@ export default class LandingPage extends React.Component {
         updatedUrl: '',
         updatedTitle: '',
         updatedAuthor: '',
-        options: [{ name: 'Option 1' }, { name: 'Option 2' }],
+        options: [],
         selectedValue: [],
+        updatedDescription: '',
+        updatedFirstPublished: '',
+        updatedVolumes: '',
+        updatedChapters: '',
+        updatedSerialization: '',
+        updatedOngoing: '',
+        updatedAnimeAdaptation: '',
         beingDeleted: {}
     }
 
@@ -188,12 +195,39 @@ export default class LandingPage extends React.Component {
         }
     }
 
-    onSelect(selectedList, selectedItem) {
-        console.log(selectedList, selectedItem)
+    onSelect = (selectedList, selectedItem) => {
+        this.setState({
+            selectedValue: selectedList
+        })
     }
 
-    onRemove(selectedList, removedItem) {
-        console.log(selectedList, removedItem)
+    onRemove = (selectedList, removedItem) => {
+        this.setState({
+            selectedValue: selectedList
+        })
+    }
+
+    confirmUpdate = async () => {
+        try {
+
+            let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
+                'url': this.state.updatedUrl,
+                'title': this.state.updatedTitle,
+                'author_name': this.state.updatedAuthor,
+                'description': this.state.updatedDescription,
+                'genre': this.state.selectedValue.map((obj) => obj.name),
+                'anime_adaptation': this.state.updatedAnimeAdaptation,
+                'chapters': this.state.updatedChapters,
+                'ongoing': this.state.updatedOngoing,
+                'published': this.state.updatedFirstPublished,
+                'serialization': this.state.updatedSerialization,
+                'volumes': this.state.updatedVolumes,
+            })
+
+            alert('Completed')
+        } catch (e) {
+            alert('Error')
+        }
     }
 
     render() {
@@ -203,15 +237,6 @@ export default class LandingPage extends React.Component {
                 <Navbar bg="dark" variant='dark' expand="sm">
                     <Container>
                         <Navbar.Brand href="#home" className='me-auto'>XXXX</Navbar.Brand>
-                        <Form className="d-none d-sm-flex">
-                            <FormControl
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success">Search</Button>
-                        </Form>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="d-sm-none">
@@ -227,61 +252,33 @@ export default class LandingPage extends React.Component {
                 {this.state.beingUpdated._id ?
 
 
-                    <div className='container border'>
-
-                        <div className='d-flex justify-content-center align-items-center'>
-                            <img src={this.state.beingUpdated.url} alt='manga-cover' />
-                        </div>
-
-                        <div>
-                            <label className='form-label'>Image</label>
-                            <input type="text"
-                                className='form-control'
-                                name='updatedUrl'
-                                value={this.state.updatedUrl}
-                                onChange={this.updateFormField} />
-                        </div>
-
-                        <div className='row'>
-                            <div className='col'>
-                                <label className='form-label'>Title</label>
-                                <input type="text"
-                                    className='form-control'
-                                    name='updatedTitle'
-                                    value={this.state.updatedTitle}
-                                    onChange={this.updateFormField} />
-                            </div>
-                            <div className='col'>
-                                <label className='form-label'>Author</label>
-                                <input type="text"
-                                    className='form-control'
-                                    name='updatedAuthor'
-                                    value={this.state.updatedAuthor}
-                                    onChange={this.updateFormField} />
-                            </div>
-                        </div>
-
-                        <div>
-                            <Multiselect
-                                options={this.state.options}
-                                selectedValues={this.state.selectedValue}
-                                onSelect={this.onSelect}
-                                onRemove={this.onRemove}
-                                displayValue="name"
-                            />
-
-                            {/* https://www.npmjs.com/package/multiselect-react-dropdown */}
-                        </div>
-
-
-                        <button className='btn btn-primary btn-sm'
-                            onClick={() => {
-                                this.setState({
-                                    beingUpdated: {}
-                                })
-                            }}>Back</button>
-                        <button className='btn btn-danger btn-sm'>Confirm</button>
-                    </div>
+                    <UpdateManga key={this.state.beingUpdated._id}
+                        beingUpdated={this.state.beingUpdated}
+                        updatedUrl={this.state.updatedUrl}
+                        updatedTitle={this.state.updatedTitle}
+                        updatedAuthor={this.state.updatedAuthor}
+                        options={this.state.options}
+                        selectedValue={this.state.selectedValue}
+                        avoidHighlightFirstOption={true}
+                        hidePlaceholder={true}
+                        onSelect={this.onSelect}
+                        onRemove={this.onRemove}
+                        updatedDescription={this.state.updatedDescription}
+                        updatedFirstPublished={this.state.updatedFirstPublished}
+                        updatedVolumes={this.state.updatedVolumes}
+                        updatedChapters={this.state.updatedChapters}
+                        updatedSerialization={this.state.updatedSerialization}
+                        updatedOngoing={this.state.updatedOngoing}
+                        updatedAnimeAdaptation={this.state.updatedAnimeAdaptation}
+                        updateNumberFormField={this.updateNumberFormField}
+                        updateFormField={this.updateFormField}
+                        updateBooleanFormField={this.updateBooleanFormField}
+                        back={() => {
+                            this.setState({
+                                beingUpdated: {}
+                            })
+                        }}
+                        confirmUpdate={this.confirmUpdate} />
 
                     :
 
@@ -301,7 +298,13 @@ export default class LandingPage extends React.Component {
                                                 }),
                                                 selectedValue: obj.genre.map((str) => {
                                                     return { name: str, id: str }
-                                                })
+                                                }),
+                                                updatedFirstPublished: obj.published,
+                                                updatedVolumes: obj.volumes,
+                                                updatedChapters: obj.chapters,
+                                                updatedSerialization: obj.serialization,
+                                                updatedOngoing: obj.ongoing,
+                                                updatedAnimeAdaptation: obj.anime_adaptation
                                             })
                                         }
                                         }
