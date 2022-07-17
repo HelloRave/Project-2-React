@@ -1,3 +1,13 @@
 @import './badges.css';
 @import './card.css';
 
+
+.alert-icon{
+    color: #FF6663;
+    font-size: 100px;
+}
+
+.title-to-delete{
+    font-weight: bold;
+    color: #FF6663;
+}

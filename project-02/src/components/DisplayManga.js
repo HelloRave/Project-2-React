@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan, faPenToSquare, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan, faPenToSquare, faThumbsUp, faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 
 export default function DisplayManga(props) {
     return (
@@ -20,40 +20,48 @@ export default function DisplayManga(props) {
                     </div>
                     <div id='buttons' className='d-flex justify-content-around align-items-center'>
                         <button className='btn btn-primary btn-sm'>
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                        <span className='ms-1'>Review</span>
+                            <FontAwesomeIcon icon={faThumbsUp} />
+                            <span className='ms-1'>Review</span>
                         </button>
-                        
+
                         <button className='btn btn-warning btn-sm'
                             onClick={props.beingUpdated}>
-                                <FontAwesomeIcon icon={faPenToSquare} />
-                                <span className='ms-1'>Edit</span>
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                            <span className='ms-1'>Edit</span>
                         </button>
-                        
-                        <button type="button" 
-                            className="btn btn-danger btn-sm" 
-                            data-bs-toggle="modal" 
+
+                        <button type="button"
+                            className="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
                             data-bs-target="#confirmDeletePopUp"
                             onClick={props.beingDeleted}>
-                            <FontAwesomeIcon icon={ faTrashCan } /> 
+                            <FontAwesomeIcon icon={faTrashCan} />
                             <span className='ms-1'>Delete</span>
                         </button>
 
                         <div className="modal fade" id="confirmDeletePopUp" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div className="modal-dialog">
+                            <div className="modal-dialog modal-dialog-centered">
                                 <div className="modal-content">
-                                    <div className="modal-body d-flex justify-content-between align-items-center">
-                                        <h5 className="modal-title" id="staticBackdropLabel">Modal title</h5>
-                                        <button type="button" 
-                                            className="btn-close" 
-                                            data-bs-dismiss="modal" 
-                                            aria-label="Close"></button>
+                                    <div className="modal-body">
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <h5 className="modal-title" id="staticBackdropLabel"></h5>
+                                            <button type="button"
+                                                className="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div className="d-flex flex-column justify-content-center align-items-center mt-4">
+                                            <FontAwesomeIcon icon={faCircleExclamation} className='alert-icon'/>
+                                            <h4 className='my-4'>Are you sure you want to delete</h4>
+                                            <p className='title-to-delete'>{props.obj.title}</p>
+                                            <p>You will not be able to revert this!</p>
+                                        </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" 
-                                            className="btn btn-secondary" 
+                                        <button type="button"
+                                            className="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="button" 
+                                        <button type="button"
                                             className="btn btn-danger"
                                             data-bs-dismiss="modal"
                                             onClick={props.confirmDelete}>Understood</button>
