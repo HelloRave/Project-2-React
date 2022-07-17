@@ -91,7 +91,8 @@ export default function SearchManga(props) {
                                         className='form-check-input'
                                         name='findGenre'
                                         value={obj.value}
-                                        onChange={()=>{}} />
+                                        checked={props.findGenre.includes(obj.value)}
+                                        onChange={props.updateGenre} />
                                     <label className='form-check-label ms-2'>{obj.display}</label>
                                 </div>
                             )
@@ -99,7 +100,8 @@ export default function SearchManga(props) {
                     </div>
                 </div>
             </div>
-            <button className='btn btn-primary mt-3'>Search</button>
+            <button className='btn btn-primary mt-3'
+                    onClick={props.searchManga}>Search</button>
         </div>
     )
 }

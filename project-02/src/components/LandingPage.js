@@ -91,14 +91,14 @@ export default class LandingPage extends React.Component {
     }
 
     updateGenre = (event) => {
-        if (this.state.genre.includes(event.target.value)) {
-            let index = this.state.genre.indexOf(event.target.value)
+        if (this.state[event.target.name].includes(event.target.value)) {
+            let index = this.state[event.target.name].indexOf(event.target.value)
             this.setState({
-                genre: [...this.state.genre.slice(0, index), ...this.state.genre.slice(index + 1)]
+                [event.target.name]: [...this.state[event.target.name].slice(0, index), ...this.state[event.target.name].slice(index + 1)]
             })
         } else {
             this.setState({
-                genre: [...this.state.genre, event.target.value]
+                [event.target.name]: [...this.state[event.target.name], event.target.value]
             })
         }
     }
@@ -283,6 +283,27 @@ export default class LandingPage extends React.Component {
         }
     }
 
+    searchManga = async () => {
+
+        try {
+            let response = await axios.get(this.url + 'find_manga/', {
+                params: {
+                    "author_name": this.state.findAuthor,
+                    "title": this.state.findTitle
+                }
+            })
+
+            this.setState({
+                filteredData: response.data
+            })
+
+            alert('Completed')
+        } catch(e) {
+            alert('Error')
+        }
+        
+    }
+
     renderPage = () => {
         if (this.state.active === 'display') {
             return (
@@ -329,14 +350,17 @@ export default class LandingPage extends React.Component {
         else if (this.state.active === 'search') {
             return (
                 <SearchManga findTitle={this.state.findTitle}
-                             findAuthor={this.state.findAuthor}
-                             findVolume={this.state.findVolume}
-                             findChapter={this.state.findChapter}
-                             findRating={this.state.findRating}
-                             findOngoing={this.state.findOngoing}
-                             allGenre={this.state.allGenre}
-                             updateFormField={this.updateFormField}
-                             updateBooleanFormField={this.updateBooleanFormField}/>
+                    findAuthor={this.state.findAuthor}
+                    findVolume={this.state.findVolume}
+                    findChapter={this.state.findChapter}
+                    findRating={this.state.findRating}
+                    findOngoing={this.state.findOngoing}
+                    findGenre={this.state.findGenre}
+                    allGenre={this.state.allGenre}
+                    updateFormField={this.updateFormField}
+                    updateBooleanFormField={this.updateBooleanFormField}
+                    updateGenre={this.updateGenre}
+                    searchManga={this.searchManga} />
             )
         }
         else if (this.state.active === 'update-manga') {
