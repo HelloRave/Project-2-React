@@ -5,16 +5,17 @@ import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
 import DisplayManga from './DisplayManga'
 import UpdateManga from './UpdateManga'
+import SearchManga from './SearchManga'
 
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-ffc2dtbttzv.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-qfdnsyjbjvf.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
         newManga: {},
-        active: 'display',
+        active: 'search',
         url: '',
         title: '',
         author_id: '',
@@ -48,7 +49,15 @@ export default class LandingPage extends React.Component {
         updatedSerialization: '',
         updatedOngoing: '',
         updatedAnimeAdaptation: '',
-        beingDeleted: {}
+        beingDeleted: {},
+        filteredData: [],
+        findTitle: '',
+        findAuthor: '',
+        findVolume: '',
+        findChapter: '',
+        findRating: '',
+        findOngoing: '',
+        findGenre: []
     }
 
     async componentDidMount() {
@@ -229,7 +238,7 @@ export default class LandingPage extends React.Component {
             })
 
             let updatedManga = {
-                '_id': this.state.beingUpdated._id, 
+                '_id': this.state.beingUpdated._id,
                 'url': this.state.updatedUrl,
                 'title': this.state.updatedTitle,
                 'author_name': this.state.updatedAuthor,
@@ -246,8 +255,8 @@ export default class LandingPage extends React.Component {
 
             this.setState({
                 data: [
-                    ...this.state.data.slice(0, index), 
-                    updatedManga, 
+                    ...this.state.data.slice(0, index),
+                    updatedManga,
                     ...this.state.data.slice(index + 1)
                 ],
                 active: 'display'
@@ -310,7 +319,7 @@ export default class LandingPage extends React.Component {
                                         })
                                     }
                                     }
-                                    confirmDelete={this.confirmDelete}/>
+                                    confirmDelete={this.confirmDelete} />
                             )
                         })}
                     </div>
@@ -319,65 +328,9 @@ export default class LandingPage extends React.Component {
         }
         else if (this.state.active === 'search') {
             return (
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-6'>
-                            <label className='form-label'>Title</label>
-                            <input type='text' className='form-control' />
-                        </div>
-                        <div className='col-6'>
-                            <label className='form-label'>Author</label>
-                            <input type='text' className='form-control' />
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col'>
-                            <label className='form-label'>Genre</label>
-                            <Form.Select aria-label="Default select example">
-                                <option>-- Select Genre --</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </div>
-                        <div className='col'>
-                            <label className='form-label'>Ongoing</label>
-                            <Form.Select aria-label="Default select example">
-                                <option>-- Select --</option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                            </Form.Select>
-                        </div>
-                        <div className='col'>
-                            <label className='form-label'>Volumes</label>
-                            <Form.Select aria-label="Default select example">
-                                <option>-- Select Genre --</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </div>
-                        <div className='col'>
-                            <label className='form-label'>Chapters</label>
-                            <Form.Select aria-label="Default select example">
-                                <option>-- Select Genre --</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </div>
-                        <div className='col'>
-                            <label className='form-label'>Rating</label>
-                            <Form.Select aria-label="Default select example">
-                                <option>-- Select Genre --</option>
-                                <option value="1">0 - 3</option>
-                                <option value="2">4 - 6</option>
-                                <option value="3">7 - 10</option>
-                            </Form.Select>
-                        </div>
-                    </div>
-                    <button className='btn btn-primary'>Search</button>
-                </div>
+                <SearchManga findTitle={this.state.findTitle}
+                             findAuthor={this.state.findAuthor}
+                             updateFormField={this.updateFormField}/>
             )
         }
         else if (this.state.active === 'update-manga') {
