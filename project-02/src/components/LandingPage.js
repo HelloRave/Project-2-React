@@ -330,7 +330,13 @@ export default class LandingPage extends React.Component {
             return (
                 <SearchManga findTitle={this.state.findTitle}
                              findAuthor={this.state.findAuthor}
-                             updateFormField={this.updateFormField}/>
+                             findVolume={this.state.findVolume}
+                             findChapter={this.state.findChapter}
+                             findRating={this.state.findRating}
+                             findOngoing={this.state.findOngoing}
+                             allGenre={this.state.allGenre}
+                             updateFormField={this.updateFormField}
+                             updateBooleanFormField={this.updateBooleanFormField}/>
             )
         }
         else if (this.state.active === 'update-manga') {
