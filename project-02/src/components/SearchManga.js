@@ -29,9 +29,9 @@ export default function SearchManga(props) {
                         value={props.findVolume}
                         onChange={props.updateFormField}>
                         <option value="">Open this select menu</option>
-                        <option value="1">1 - 20</option>
-                        <option value="2">21 - 40</option>
-                        <option value="3">Above 40</option>
+                        <option value="1-20">1 - 20</option>
+                        <option value="21-40">21 - 40</option>
+                        <option value="41-200">Above 40</option>
                     </select>
                 </div>
                 <div className='col-6 col-md-4'>
@@ -41,9 +41,9 @@ export default function SearchManga(props) {
                         value={props.findChapter}
                         onChange={props.updateFormField}>
                         <option value="">Open this select menu</option>
-                        <option value="1">1 - 100</option>
-                        <option value="2">101 - 200</option>
-                        <option value="3">Above 200</option>
+                        <option value="1-100">1 - 100</option>
+                        <option value="101-200">101 - 200</option>
+                        <option value="201-2000">Above 200</option>
                     </select>
                 </div>
                 <div className='col-6 col-md-4'>

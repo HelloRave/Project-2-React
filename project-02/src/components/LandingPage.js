@@ -289,7 +289,13 @@ export default class LandingPage extends React.Component {
             let response = await axios.get(this.url + 'find_manga/', {
                 params: {
                     "author_name": this.state.findAuthor,
-                    "title": this.state.findTitle
+                    "title": this.state.findTitle,
+                    "ongoing": this.state.findOngoing,
+                    "genre": this.state.findGenre,
+                    "max_volume": this.state.findVolume.split('-')[1],
+                    "min_volume": this.state.findVolume.split('-')[0],
+                    "max_chapter": this.state.findChapter.split('-')[1],
+                    "min_chapter": this.state.findChapter.split('-')[0]
                 }
             })
 
@@ -298,10 +304,10 @@ export default class LandingPage extends React.Component {
             })
 
             alert('Completed')
-        } catch(e) {
+        } catch (e) {
             alert('Error')
         }
-        
+
     }
 
     renderPage = () => {
@@ -349,18 +355,59 @@ export default class LandingPage extends React.Component {
         }
         else if (this.state.active === 'search') {
             return (
-                <SearchManga findTitle={this.state.findTitle}
-                    findAuthor={this.state.findAuthor}
-                    findVolume={this.state.findVolume}
-                    findChapter={this.state.findChapter}
-                    findRating={this.state.findRating}
-                    findOngoing={this.state.findOngoing}
-                    findGenre={this.state.findGenre}
-                    allGenre={this.state.allGenre}
-                    updateFormField={this.updateFormField}
-                    updateBooleanFormField={this.updateBooleanFormField}
-                    updateGenre={this.updateGenre}
-                    searchManga={this.searchManga} />
+                <React.Fragment>
+                    <SearchManga findTitle={this.state.findTitle}
+                        findAuthor={this.state.findAuthor}
+                        findVolume={this.state.findVolume}
+                        findChapter={this.state.findChapter}
+                        findRating={this.state.findRating}
+                        findOngoing={this.state.findOngoing}
+                        findGenre={this.state.findGenre}
+                        allGenre={this.state.allGenre}
+                        updateFormField={this.updateFormField}
+                        updateBooleanFormField={this.updateBooleanFormField}
+                        updateGenre={this.updateGenre}
+                        searchManga={this.searchManga} />
+                    <div className='container'>
+                        <div className='row g-4'>
+                            {this.state.filteredData.map((obj) => {
+                                return (
+                                    <DisplayManga obj={obj}
+                                        beingUpdated={() => {
+                                            this.setState({
+                                                active: 'update-manga',
+                                                beingUpdated: obj,
+                                                updatedUrl: obj.url,
+                                                updatedTitle: obj.title,
+                                                updatedAuthor: obj.author.name,
+                                                options: this.state.allGenre.map((obj) => {
+                                                    return { name: obj.value, id: obj.value }
+                                                }),
+                                                selectedValue: obj.genre.map((str) => {
+                                                    return { name: str, id: str }
+                                                }),
+                                                updatedFirstPublished: obj.published,
+                                                updatedVolumes: obj.volumes,
+                                                updatedChapters: obj.chapters,
+                                                updatedSerialization: obj.serialization,
+                                                updatedOngoing: obj.ongoing,
+                                                updatedAnimeAdaptation: obj.anime_adaptation
+                                            })
+                                        }
+                                        }
+                                        beingDeleted={() => {
+                                            this.setState({
+                                                beingDeleted: obj
+                                            })
+                                        }
+                                        }
+                                        confirmDelete={this.confirmDelete} />
+                                )
+                            })}
+                        </div>
+                    </div>
+                </React.Fragment>
+
             )
         }
         else if (this.state.active === 'update-manga') {
