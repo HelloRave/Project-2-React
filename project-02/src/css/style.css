@@ -11,3 +11,11 @@
     font-weight: bold;
     color: #FF6663;
 }
+
+.rating-star{
+    color: gold;
+}
+
+.faded-star{
+    color: rgba(0,0,0,0.3)
+}

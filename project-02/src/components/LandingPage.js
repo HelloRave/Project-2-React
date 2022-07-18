@@ -1,6 +1,7 @@
 import React from 'react'
-import { Navbar, Nav, Container, Form } from 'react-bootstrap'
 import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLeftLong, faStar } from '@fortawesome/free-solid-svg-icons'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
 import DisplayManga from './DisplayManga'
@@ -15,7 +16,7 @@ export default class LandingPage extends React.Component {
     state = {
         data: [], // to be used to display manga cards
         newManga: {},
-        active: 'search',
+        active: 'display',
         url: '',
         title: '',
         author_id: '',
@@ -339,7 +340,7 @@ export default class LandingPage extends React.Component {
                         {this.state.data.map((obj) => {
                             return (
                                 <DisplayManga obj={obj}
-                                    addReview={() => {this.addReview(obj)}}
+                                    addReview={() => { this.addReview(obj) }}
                                     beingUpdated={() => {
                                         this.setState({
                                             active: 'update-manga',
@@ -504,15 +505,56 @@ export default class LandingPage extends React.Component {
         }
         else if (this.state.active === 'review') {
             return (
-                <div>
-                    {this.state.reviewData.map((obj) => {
-                        return(
-                            <React.Fragment>
-                                <p>{obj.plot}</p>
-                            </React.Fragment>
-                        )
-                    })}
-                </div>
+                <React.Fragment>
+                    <div className='container p-0 mb-3'>
+                        <button className='btn btn-primary btn-sm'
+                            onClick={() => {
+                                this.setState({
+                                    active: 'display'
+                                })
+                            }}>
+                                <FontAwesomeIcon icon={faLeftLong} />
+                            </button>
+                    </div>
+
+                    <div className='container text-center border'>
+                        You are looking at reviews for: {this.state.addViewReview.title}
+                    </div>
+                    <div>
+                        {this.state.reviewData[0] ?
+                            this.state.reviewData.map((obj) => {
+                                return (
+                                    <React.Fragment>
+                                        <div className='container border'>
+                                            <div>
+                                                {[...Array(obj.rating)].map((element, index) => {
+                                                    return <FontAwesomeIcon icon={faStar} key={index} className='rating-star' />
+                                                })}
+                                                {[...Array(5 - obj.rating)].map((element, index) => {
+                                                    return <FontAwesomeIcon icon={faStar} key={index} className='faded-star' />
+                                                })}
+                                            </div>
+                                            <p>{obj.plot}</p>
+                                            <p>{obj.main_characters}</p>
+                                        </div>
+
+                                    </React.Fragment>
+                                )
+                            })
+
+                            :
+
+                            <div className='container'>
+                                No Reviews Available, add new!
+                            </div>
+                        }
+                    </div>
+
+                    <div className='container border'>
+                        Add New
+                    </div>
+                </React.Fragment>
+
             )
         }
     }
@@ -521,33 +563,36 @@ export default class LandingPage extends React.Component {
         return (
             <React.Fragment>
                 {/* NavBar */}
-                <Navbar bg="dark" variant='dark' expand="sm">
-                    <Container>
-                        <Navbar.Brand href="#" onClick={() => this.changePage('display')}>XXXX</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="ms-auto">
-                                <Nav.Link href="#"
-                                    className='text-center'
-                                    onClick={() => this.changePage('display')}>
-                                    Home
-                                </Nav.Link>
-                                <Nav.Link href="##"
-                                    className='text-center'
-                                    onClick={() => this.changePage('search')}>
-                                    Search
-                                </Nav.Link>
-                                <Nav.Link href="###"
-                                    className='text-center'
-                                    onClick={() => this.changePage('add-new-manga')}>
-                                    Add New
-                                </Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="#" onClick={() => this.changePage('display')}>Navbar</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li className="nav-item">
+                                    <a className={this.state.active === 'display' ? 'nav-link active text-center' : 'nav-link text-center'}
+                                        href="#"
+                                        onClick={() => this.changePage('display')}>Home</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className={this.state.active === 'search' ? 'nav-link active text-center' : 'nav-link text-center'}
+                                        href="#"
+                                        onClick={() => this.changePage('search')}>Search</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className={this.state.active === 'add-new-manga' ? 'nav-link active text-center' : 'nav-link text-center'} href="#" onClick={() => this.changePage('add-new-manga')}>Add New</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 
-                {this.renderPage()}
+                <div className='container-fluid my-4'>
+                    {this.renderPage()}
+                </div>
+
             </React.Fragment>
 
         )
