@@ -19,7 +19,8 @@ export default function DisplayManga(props) {
                         <div id='manga-description' className='col-7'>{props.obj.description}</div>
                     </div>
                     <div id='buttons' className='d-flex justify-content-around align-items-center'>
-                        <button className='btn btn-primary btn-sm'>
+                        <button className='btn btn-primary btn-sm'
+                                onClick={props.addReview}>
                             <FontAwesomeIcon icon={faThumbsUp} />
                             <span className='ms-1'>Review</span>
                         </button>

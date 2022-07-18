@@ -10,7 +10,7 @@ import SearchManga from './SearchManga'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-qfdnsyjbjvf.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-a8c3ugp7rp7.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
@@ -57,7 +57,9 @@ export default class LandingPage extends React.Component {
         findChapter: '',
         findRating: '',
         findOngoing: '',
-        findGenre: []
+        findGenre: [],
+        addViewReview: [],
+        reviewData: []
     }
 
     async componentDidMount() {
@@ -310,6 +312,25 @@ export default class LandingPage extends React.Component {
 
     }
 
+    addReview = async (manga) => {
+        try {
+
+            await this.setState({
+                addViewReview: manga
+            })
+
+            let reviewResponse = await axios.get(this.url + 'find_review/' + this.state.addViewReview._id)
+
+            this.setState({
+                reviewData: reviewResponse.data,
+                active: 'review'
+            })
+        } catch (e) {
+            alert('Error')
+        }
+
+    }
+
     renderPage = () => {
         if (this.state.active === 'display') {
             return (
@@ -318,6 +339,7 @@ export default class LandingPage extends React.Component {
                         {this.state.data.map((obj) => {
                             return (
                                 <DisplayManga obj={obj}
+                                    addReview={() => {this.addReview(obj)}}
                                     beingUpdated={() => {
                                         this.setState({
                                             active: 'update-manga',
@@ -373,6 +395,7 @@ export default class LandingPage extends React.Component {
                             {this.state.filteredData.map((obj) => {
                                 return (
                                     <DisplayManga obj={obj}
+                                        addReview={this.addReview}
                                         beingUpdated={() => {
                                             this.setState({
                                                 active: 'update-manga',
@@ -477,6 +500,19 @@ export default class LandingPage extends React.Component {
                         })
                     }}
                     confirmAdd={this.addNewManga} />
+            )
+        }
+        else if (this.state.active === 'review') {
+            return (
+                <div>
+                    {this.state.reviewData.map((obj) => {
+                        return(
+                            <React.Fragment>
+                                <p>{obj.plot}</p>
+                            </React.Fragment>
+                        )
+                    })}
+                </div>
             )
         }
     }
