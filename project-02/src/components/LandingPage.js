@@ -59,7 +59,8 @@ export default class LandingPage extends React.Component {
         findOngoing: '',
         findGenre: [],
         addViewReview: [],
-        reviewData: []
+        reviewData: [],
+        reviewPage: 'to-add'
     }
 
     async componentDidMount() {
@@ -312,7 +313,7 @@ export default class LandingPage extends React.Component {
 
     }
 
-    addReview = async (manga) => {
+    viewReview = async (manga) => {
         try {
 
             await this.setState({
@@ -339,7 +340,7 @@ export default class LandingPage extends React.Component {
                         {this.state.data.map((obj) => {
                             return (
                                 <DisplayManga obj={obj}
-                                    addReview={() => { this.addReview(obj) }}
+                                    viewReview={() => { this.viewReview(obj) }}
                                     beingUpdated={() => {
                                         this.setState({
                                             active: 'update-manga',
@@ -395,7 +396,7 @@ export default class LandingPage extends React.Component {
                             {this.state.filteredData.map((obj) => {
                                 return (
                                     <DisplayManga obj={obj}
-                                        addReview={this.addReview}
+                                        viewReview={() => {this.viewReview(obj)}}
                                         beingUpdated={() => {
                                             this.setState({
                                                 active: 'update-manga',
@@ -506,11 +507,23 @@ export default class LandingPage extends React.Component {
             return (
                 <Review backToMain={() => {
                     this.setState({
-                        active: 'display'
+                        active: 'display',
+                        reviewPage: 'to-add'
                     })
                 }}
                         addViewReview={this.state.addViewReview}
-                        reviewData={this.state.reviewData}/>
+                        reviewData={this.state.reviewData}
+                        reviewPage={this.state.reviewPage}
+                        addReview={() => {
+                            this.setState({
+                                reviewPage: ''
+                            })
+                        }}
+                        backToAddReview={() => {
+                            this.setState({
+                                reviewPage: 'to-add'
+                            })
+                        }}/>
             )
         }
     }

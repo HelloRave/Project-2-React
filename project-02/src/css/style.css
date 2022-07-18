@@ -19,3 +19,14 @@
 .faded-star{
     color: rgba(0,0,0,0.3)
 }
+
+.review-add-div{
+    border: 1px solid red; 
+    width: 5rem; 
+    height: 5rem; 
+    border-radius: 50%;
+}
+
+.review-add-icon{
+    font-size: 2.5rem;
+}

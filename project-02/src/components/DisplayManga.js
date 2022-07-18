@@ -20,7 +20,7 @@ export default function DisplayManga(props) {
                     </div>
                     <div id='buttons' className='d-flex justify-content-around align-items-center'>
                         <button className='btn btn-primary btn-sm'
-                                onClick={props.addReview}>
+                                onClick={props.viewReview}>
                             <FontAwesomeIcon icon={faThumbsUp} />
                             <span className='ms-1'>Review</span>
                         </button>
