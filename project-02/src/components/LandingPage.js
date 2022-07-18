@@ -10,7 +10,7 @@ import Review from './Review'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-a8c3ugp7rp7.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-8k7xv95jv3u.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards
@@ -60,7 +60,11 @@ export default class LandingPage extends React.Component {
         findGenre: [],
         addViewReview: [],
         reviewData: [],
-        reviewPage: 'to-add'
+        reviewPage: 'to-add',
+        reviewPlot: '',
+        reviewMainCharacters: '',
+        reviewSupportingCharacters: '',
+        reviewRating: ''
     }
 
     async componentDidMount() {
@@ -332,6 +336,38 @@ export default class LandingPage extends React.Component {
 
     }
 
+    confirmAddReview = async () => {
+        try{
+
+            let response = await axios.post(this.url + 'add_review/' + this.state.addViewReview._id, {
+                'title': this.state.addViewReview.title,
+                'plot': this.state.reviewPlot,
+                'main_characters': this.state.reviewMainCharacters,
+                'supporting_characters': this.state.reviewSupportingCharacters,
+                'rating': Number(this.state.reviewRating)
+            })
+
+            let addedReview = {
+                '_id': response.data.insertedId,
+                'manga': {
+                    '_id': this.state.addViewReview._id,
+                    'title': this.state.addViewReview.title
+                },
+                'plot': this.state.reviewPlot,
+                'main_characters': this.state.reviewMainCharacters,
+                'supporting_characters': this.state.reviewSupportingCharacters,
+                'rating': Number(this.state.reviewRating)
+            }
+
+            this.setState({
+                reviewData: [...this.state.reviewData, addedReview]
+            })
+            alert('Completed')
+        } catch(e) {
+            alert('Error')
+        }
+    }
+
     renderPage = () => {
         if (this.state.active === 'display') {
             return (
@@ -505,7 +541,12 @@ export default class LandingPage extends React.Component {
         }
         else if (this.state.active === 'review') {
             return (
-                <Review backToMain={() => {
+                <Review reviewPlot={this.state.reviewPlot}
+                        reviewMainCharacters={this.state.reviewMainCharacters}
+                        reviewSupportingCharacters={this.state.reviewSupportingCharacters}
+                        reviewRating={this.state.reviewRating}
+                        updateFormField={this.updateFormField}
+                        backToMain={() => {
                     this.setState({
                         active: 'display',
                         reviewPage: 'to-add'
@@ -523,7 +564,8 @@ export default class LandingPage extends React.Component {
                             this.setState({
                                 reviewPage: 'to-add'
                             })
-                        }}/>
+                        }}
+                        confirmAddReview={this.confirmAddReview}/>
             )
         }
     }

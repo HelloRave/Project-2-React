@@ -83,17 +83,23 @@ export default function Review(props) {
                         </div>
                         <div className='col-12'>
                             <label className='form-label'>Rating</label>
-                            <input type='number'
-                                className='form-control'
-                                name='rating'
-                                value={props.rating}
-                                onChange={props.updateNumberFormField} />
+                            <select class="form-select"
+                                name='reviewRating'
+                                value={props.reviewRating}
+                                onChange={props.updateFormField}>
+                                <option value="">Open this select menu</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
                         </div>
                     </div>
                     <button className='btn btn-danger'
                         onClick={props.backToAddReview}>Back</button>
                     <button className='btn btn-primary'
-                        onClick={props.confirmAdd}>Add</button>
+                        onClick={props.confirmAddReview}>Add</button>
                 </div>
             }
 
