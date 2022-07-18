@@ -1,12 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLeftLong, faStar } from '@fortawesome/free-solid-svg-icons'
 import AddNewManga from './AddNewManga'
 import NewMangaReview from './NewMangaReview'
 import DisplayManga from './DisplayManga'
 import UpdateManga from './UpdateManga'
 import SearchManga from './SearchManga'
+import Review from './Review'
 
 
 export default class LandingPage extends React.Component {
@@ -505,56 +504,13 @@ export default class LandingPage extends React.Component {
         }
         else if (this.state.active === 'review') {
             return (
-                <React.Fragment>
-                    <div className='container p-0 mb-3'>
-                        <button className='btn btn-primary btn-sm'
-                            onClick={() => {
-                                this.setState({
-                                    active: 'display'
-                                })
-                            }}>
-                                <FontAwesomeIcon icon={faLeftLong} />
-                            </button>
-                    </div>
-
-                    <div className='container text-center border'>
-                        You are looking at reviews for: {this.state.addViewReview.title}
-                    </div>
-                    <div>
-                        {this.state.reviewData[0] ?
-                            this.state.reviewData.map((obj) => {
-                                return (
-                                    <React.Fragment>
-                                        <div className='container border'>
-                                            <div>
-                                                {[...Array(obj.rating)].map((element, index) => {
-                                                    return <FontAwesomeIcon icon={faStar} key={index} className='rating-star' />
-                                                })}
-                                                {[...Array(5 - obj.rating)].map((element, index) => {
-                                                    return <FontAwesomeIcon icon={faStar} key={index} className='faded-star' />
-                                                })}
-                                            </div>
-                                            <p>{obj.plot}</p>
-                                            <p>{obj.main_characters}</p>
-                                        </div>
-
-                                    </React.Fragment>
-                                )
-                            })
-
-                            :
-
-                            <div className='container'>
-                                No Reviews Available, add new!
-                            </div>
-                        }
-                    </div>
-
-                    <div className='container border'>
-                        Add New
-                    </div>
-                </React.Fragment>
-
+                <Review backToMain={() => {
+                    this.setState({
+                        active: 'display'
+                    })
+                }}
+                        addViewReview={this.state.addViewReview}
+                        reviewData={this.state.reviewData}/>
             )
         }
     }
