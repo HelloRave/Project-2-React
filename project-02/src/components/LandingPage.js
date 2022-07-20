@@ -10,7 +10,7 @@ import Review from './Review'
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-nz1stmlqwbp.ws-us54.gitpod.io/'
+    url = 'https://8888-hellorave-project2expre-phg10y0wbqg.ws-us54.gitpod.io/'
 
     state = {
         data: [], // to be used to display manga cards

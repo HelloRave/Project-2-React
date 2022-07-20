@@ -23,6 +23,9 @@ export default function Review(props) {
                             {props.addViewReview.title}
                         </p>
                     </div>
+                    <div>
+                        {props.addViewReview.average_rating}
+                    </div>
                 </div>
             </div>
             <div>
