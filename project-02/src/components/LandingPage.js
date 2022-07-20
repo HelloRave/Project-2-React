@@ -299,6 +299,7 @@ export default class LandingPage extends React.Component {
                     "title": this.state.findTitle,
                     "ongoing": this.state.findOngoing,
                     "genre": this.state.findGenre,
+                    "min_rating": this.state.findRating,
                     "max_volume": this.state.findVolume.split('-')[1],
                     "min_volume": this.state.findVolume.split('-')[0],
                     "max_chapter": this.state.findChapter.split('-')[1],
