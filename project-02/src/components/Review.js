@@ -1,6 +1,8 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLeftLong, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
+import { CircularProgressbar, buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function Review(props) {
     return (
@@ -17,14 +19,35 @@ export default function Review(props) {
                     <div className='col-12 col-md-4'>
                         <img src={props.addViewReview.url} alt='manga-cover' />
                     </div>
-                    <div className='col-12 col-md-8'>
+                    <div className='col-12 col-md-4'>
                         <p className='reviews-text mb-0'>Reviews for: </p>
                         <p className='reviews-title-text'>
                             {props.addViewReview.title}
                         </p>
                     </div>
-                    <div>
-                        {props.addViewReview.average_rating}
+                    <div div className='col-12 col-md-4'>
+                        {props.addViewReview.average_rating ?
+
+                            <CircularProgressbar value={props.addViewReview.average_rating}
+                                maxValue={5}
+                                text={props.addViewReview.average_rating}
+                                styles={buildStyles({
+                                    strokeLinecap: 'round',
+                                    pathColor: `gold`,
+                                    textColor: 'gold',
+                                    trailColor: '#d6d6d6'
+                                })} />
+
+                            :
+
+                            <CircularProgressbarWithChildren value={0}
+                                                             maxValue={5}
+                                                             >
+                                <div>No Reviews Yet</div>
+                            </CircularProgressbarWithChildren>
+                        }
+
+
                     </div>
                 </div>
             </div>
