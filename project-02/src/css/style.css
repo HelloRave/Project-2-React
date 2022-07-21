@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Proza+Libre&display=swap');
 @import './badges.css';
 @import './card.css';
+@import './reviews.css';
 
 
 .alert-icon{
@@ -13,36 +13,3 @@
     color: #FF6663;
 }
 
-.rating-star{
-    color: gold;
-}
-
-.faded-star{
-    color: rgba(0,0,0,0.3)
-}
-
-.review-add-div{
-    border: 1px solid red; 
-    width: 5rem; 
-    height: 5rem; 
-    border-radius: 50%;
-}
-
-.review-add-icon{
-    font-size: 2.5rem;
-}
-
-.reviews-text, .reviews-title-text{
-    font-size: 3rem;
-    font-family: 'Proza Libre', sans-serif;
-}
-
-.CircularProgressbar{
-    max-height: 200px;
-}
-
-.progress-bar{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: gold !important;
-}

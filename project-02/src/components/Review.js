@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLeftLong, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-import { CircularProgressbar, buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
@@ -28,65 +28,103 @@ export default function Review(props) {
                 </p>
             </div>
 
-            <div className='container text-center p-1'>
+            <div className='container text-center mt-4 p-1'>
                 <img src={props.addViewReview.url} alt='manga-cover' />
             </div>
 
-            <div div className='container my-3'>
+            <div div className='container my-4'>
                 {props.addViewReview.average_rating ?
 
-                    <div className='row align-items-center gy-3'>
-                        <div className='col-12 col-sm-4'>
-                            <CircularProgressbar value={props.addViewReview.average_rating}
-                                maxValue={5}
-                                text={props.addViewReview.average_rating}
-                                counterClockwise={true}
-                                styles={buildStyles({
-                                    strokeLinecap: 'round',
-                                    pathColor: `gold`,
-                                    textColor: 'black',
-                                    trailColor: '#d6d6d6'
-                                })} />
-                        </div>
-                        <div className='col-12 col-sm-8'>
-                            <div className='d-flex align-items-center my-2'>
-                                <label>5 stars: </label>
-                                <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(5).length / props.reviewData.length) * 100} />
-                                <label>{`${(returnRating(5).length / props.reviewData.length) * 100}%`}</label>
-                            </div>
-                            <div className='d-flex align-items-center my-2'>
-                                <label>4 stars: </label>
-                                <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(4).length / props.reviewData.length) * 100} />
-                                <label>{`${(returnRating(4).length / props.reviewData.length) * 100}%`}</label>
-                            </div>
-                            <div className='d-flex align-items-center my-2'>
-                                <label>3 stars: </label>
-                                <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(3).length / props.reviewData.length) * 100} />
-                                <label>{`${(returnRating(3).length / props.reviewData.length) * 100}%`}</label>
-                            </div>
-                            <div className='d-flex align-items-center my-2'>
-                                <label>2 stars: </label>
-                                <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(2).length / props.reviewData.length) * 100} />
-                                <label>{`${(returnRating(2).length / props.reviewData.length) * 100}%`}</label>
-                            </div>
-                            <div className='d-flex align-items-center my-2'>
-                                <label>1 stars: </label>
-                                <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(1).length / props.reviewData.length) * 100} />
-                                <label>{`${(returnRating(1).length / props.reviewData.length) * 100}%`}</label>
-                            </div>
-                        </div>
-                    </div>
+                    <React.Fragment>
 
+                        <div className='row align-items-center gy-3'>
+                            <div className='col-12 col-sm-4'>
+                                <CircularProgressbar value={props.addViewReview.average_rating}
+                                    maxValue={5}
+                                    text={props.addViewReview.average_rating}
+                                    counterClockwise={true}
+                                    styles={buildStyles({
+                                        strokeLinecap: 'round',
+                                        pathTransitionDuration: 0.5,
+                                        pathColor: `gold`,
+                                        textColor: 'black',
+                                        trailColor: '#d6d6d6'
+                                    })} />
+                            </div>
+                            <div className='col-12 col-sm-8'>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>5 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(5).length / props.reviewData.length) * 100} />
+                                    <label>{`${(returnRating(5).length / props.reviewData.length) * 100}%`}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>4 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(4).length / props.reviewData.length) * 100} />
+                                    <label>{`${(returnRating(4).length / props.reviewData.length) * 100}%`}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>3 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(3).length / props.reviewData.length) * 100} />
+                                    <label>{`${(returnRating(3).length / props.reviewData.length) * 100}%`}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>2 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(2).length / props.reviewData.length) * 100} />
+                                    <label>{`${(returnRating(2).length / props.reviewData.length) * 100}%`}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>1 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(1).length / props.reviewData.length) * 100} />
+                                    <label>{`${(returnRating(1).length / props.reviewData.length) * 100}%`}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </React.Fragment>
 
                     :
 
                     <React.Fragment>
-                        <CircularProgressbarWithChildren value={0}
-                            maxValue={5}
-                        >
-                            <div>No Reviews Yet</div>
-                        </CircularProgressbarWithChildren>
-                        <ProgressBar variant="success" now={0} />
+                        <div className='row align-items-center gy-3'>
+
+                            <div className='col-12 col-sm-4 no-rating'>
+                                <CircularProgressbar value={0}
+                                    maxValue={5}
+                                    text={'No Ratings Yet'}
+                                    styles={buildStyles({
+                                        textColor: 'black',
+                                        trailColor: '#d6d6d6'
+                                    })} />
+                            </div>
+                            <div className='col-12 col-sm-8'>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>5 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={0} />
+                                    <label>{``}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>4 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={0} />
+                                    <label>{``}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>3 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={0} />
+                                    <label>{``}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>2 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={0} />
+                                    <label>{``}</label>
+                                </div>
+                                <div className='d-flex align-items-center my-2'>
+                                    <label>1 stars: </label>
+                                    <ProgressBar className='flex-grow-1 mx-2' variant="success" now={0} />
+                                    <label>{``}</label>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </React.Fragment>
 
                 }
@@ -125,8 +163,7 @@ export default function Review(props) {
 
                     :
 
-                    <div className='container'>
-                        No Reviews Available, add new!
+                    <div>
                     </div>
                 }
             </div>
@@ -134,12 +171,15 @@ export default function Review(props) {
             {props.reviewPage === 'to-add' ?
                 <div className='container d-flex flex-column justify-content-center align-items-center p-4'
                     onClick={props.addReview}>
-                    <div className='review-add-div d-flex justify-content-center align-items-center p-3'>
-                        <FontAwesomeIcon icon={faPlus} className='review-add-icon' />
+                    <div className='review-div'>
+                        <div className='review-add-div d-flex justify-content-center align-items-center p-3'>
+                            <FontAwesomeIcon icon={faPlus} className='review-add-icon' />
+                        </div>
+                        <div className='add-review-text mt-2'>
+                            Add New Review
+                        </div>
                     </div>
-                    <div className='mt-3'>
-                        Add New Review
-                    </div>
+
                 </div>
 
                 :
@@ -182,7 +222,7 @@ export default function Review(props) {
                             </select>
                         </div>
                         <div className='col-12'>
-                            <button className='btn btn-danger me-2'
+                            <button className='btn btn-secondary me-2'
                                 onClick={props.backToAddReview}>Back</button>
                             <button className='btn btn-primary'
                                 onClick={props.confirmAddReview}>Add</button>

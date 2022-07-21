@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Proza+Libre&display=swap');
+
+.rating-star{
+    color: gold;
+}
+
+.faded-star{
+    color: rgba(0,0,0,0.3)
+}
+
+.review-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    color: grey
+}
+
+.review-div:hover{
+    color: black
+}
+
+.review-div:hover > .review-add-div  {
+    border: 5px solid black;
+}
+
+
+.review-add-div{
+    border: 5px solid grey; 
+    width: 5rem; 
+    height: 5rem; 
+    border-radius: 50%;
+}
+
+.add-review-text{
+    font-weight: bold;
+}
+
+.review-add-icon{
+    font-size: 2.5rem;
+}
+
+.reviews-text, .reviews-title-text{
+    font-size: 3rem;
+    font-family: 'Proza Libre', sans-serif;
+}
+
+.CircularProgressbar{
+    max-height: 200px;
+}
+
+.no-rating .CircularProgressbar .CircularProgressbar-text{
+    font-size: 10px !important;
+}
+
+.progress-bar{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: gold !important;
+}
