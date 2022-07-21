@@ -349,7 +349,7 @@ export default class LandingPage extends React.Component {
             })
 
             let addedReview = {
-                '_id': response.data.insertedId,
+                '_id': response.data.insertedId, //response.data has no insertedId
                 'manga': {
                     '_id': this.state.addViewReview._id,
                     'title': this.state.addViewReview.title
@@ -360,9 +360,28 @@ export default class LandingPage extends React.Component {
                 'rating': Number(this.state.reviewRating)
             }
 
-            this.setState({
-                reviewData: [...this.state.reviewData, addedReview]
+            let ratingOnlyArray = this.state.reviewData.map((obj) => {
+                return obj.rating
             })
+
+            let averageRating = (ratingOnlyArray.reduce((total, current) => {return total + current}, 0) + Number(this.state.reviewRating)) / (ratingOnlyArray.length + 1)
+
+            let index = this.state.data.findIndex((data) => {return data._id === this.state.addViewReview._id})
+
+            let currentManga = this.state.data[index]
+
+            currentManga['average_rating'] = averageRating
+
+            this.setState({
+                reviewData: [...this.state.reviewData, addedReview],
+                addViewReview: {...this.state.addViewReview, 'average_rating': averageRating},
+                data: [
+                    ...this.state.data.slice(0, index),
+                    currentManga,
+                    ...this.state.data.slice(index + 1)
+                ]
+            })
+
             alert('Completed')
         } catch(e) {
             alert('Error')
