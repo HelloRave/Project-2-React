@@ -35,7 +35,6 @@ export default class LandingPage extends React.Component {
         allGenre: [],
         toReview: false,
         toAdd: false,
-        displayUpdate: false,
         beingUpdated: {},
         updatedUrl: '',
         updatedTitle: '',
@@ -49,6 +48,7 @@ export default class LandingPage extends React.Component {
         updatedSerialization: '',
         updatedOngoing: '',
         updatedAnimeAdaptation: '',
+        toUpdate: false, 
         beingDeleted: {},
         filteredData: [],
         findTitle: '',
@@ -64,7 +64,8 @@ export default class LandingPage extends React.Component {
         reviewPlot: '',
         reviewMainCharacters: '',
         reviewSupportingCharacters: '',
-        reviewRating: ''
+        reviewRating: '',
+        toAddReview: false
     }
 
     async componentDidMount() {
@@ -162,46 +163,62 @@ export default class LandingPage extends React.Component {
     addNewManga = async () => {
         try {
 
-            let authorResponse
+            if (this.state.plot &&
+                this.state.plot.length >= 20 &&
+                this.state.mainCharacters &&
+                this.state.mainCharacters.length >= 20 &&
+                this.state.supportingCharacters &&
+                this.state.supportingCharacters.length >= 20 &&
+                this.state.rating) {
 
-            if (this.state.author) {
-                authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
+                let authorResponse
+
+                if (this.state.author) {
+                    authorResponse = await axios.get(this.url + 'find_author/' + this.state.author)
+                }
+
+                let response = await axios.post(this.url + 'add_new_manga', {
+                    'author_id': authorResponse.data[0] ? authorResponse.data[0]._id : '',
+                    'url': this.state.url,
+                    'title': this.state.title,
+                    'author_name': this.state.author,
+                    'description': this.state.description,
+                    'genre': this.state.genre,
+                    'anime_adaptation': this.state.animeAdaptation,
+                    'chapters': this.state.chapters,
+                    'ongoing': this.state.ongoing,
+                    'published': this.state.firstPublished,
+                    'serialization': this.state.serialization,
+                    'volumes': this.state.volumes,
+                    'plot': this.state.plot,
+                    'main_characters': this.state.mainCharacters,
+                    'supporting_characters': this.state.supportingCharacters,
+                    'rating': this.state.rating
+                })
+
+                let lastAdded = {
+                    ...this.state.newManga,
+                    _id: response.data.insertedId,
+                    'plot': this.state.plot,
+                    'main_characters': this.state.mainCharacters,
+                    'supporting_characters': this.state.supportingCharacters,
+                    'rating': this.state.rating
+                }
+
+                this.setState({
+                    data: [...this.state.data, lastAdded],
+                    active: 'add-new-manga'
+                })
+
+                alert('Completed')
             }
 
-            let response = await axios.post(this.url + 'add_new_manga', {
-                'author_id': authorResponse.data[0] ? authorResponse.data[0]._id : '',
-                'url': this.state.url,
-                'title': this.state.title,
-                'author_name': this.state.author,
-                'description': this.state.description,
-                'genre': this.state.genre,
-                'anime_adaptation': this.state.animeAdaptation,
-                'chapters': this.state.chapters,
-                'ongoing': this.state.ongoing,
-                'published': this.state.firstPublished,
-                'serialization': this.state.serialization,
-                'volumes': this.state.volumes,
-                'plot': this.state.plot,
-                'main_characters': this.state.mainCharacters,
-                'supporting_characters': this.state.supportingCharacters,
-                'rating': this.state.rating
-            })
-
-            let lastAdded = {
-                ...this.state.newManga,
-                _id: response.data.insertedId,
-                'plot': this.state.plot,
-                'main_characters': this.state.mainCharacters,
-                'supporting_characters': this.state.supportingCharacters,
-                'rating': this.state.rating
+            else {
+                // remove alert & display error message 
+                alert('Empty fields')
             }
 
-            this.setState({
-                data: [...this.state.data, lastAdded],
-                active: 'add-new-manga'
-            })
 
-            alert('Completed')
         } catch (e) {
             alert('Error')
 
@@ -211,13 +228,13 @@ export default class LandingPage extends React.Component {
         }
     }
 
-    onSelect = (selectedList, selectedItem) => {
+    onSelect = (selectedList) => {
         this.setState({
             selectedValue: selectedList
         })
     }
 
-    onRemove = (selectedList, removedItem) => {
+    onRemove = (selectedList) => {
         this.setState({
             selectedValue: selectedList
         })
@@ -226,50 +243,72 @@ export default class LandingPage extends React.Component {
     confirmUpdate = async () => {
         try {
 
-            // let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
-            //     'url': this.state.updatedUrl,
-            //     'title': this.state.updatedTitle,
-            //     'author_name': this.state.updatedAuthor,
-            //     'description': this.state.updatedDescription,
-            //     'genre': this.state.selectedValue.map((obj) => obj.name),
-            //     'anime_adaptation': this.state.updatedAnimeAdaptation,
-            //     'chapters': this.state.updatedChapters,
-            //     'ongoing': this.state.updatedOngoing,
-            //     'published': this.state.updatedFirstPublished,
-            //     'serialization': this.state.updatedSerialization,
-            //     'volumes': this.state.updatedVolumes,
-            // })
+            let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+            let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
-            let index = this.state.data.findIndex((manga) => {
-                return manga._id === this.state.beingUpdated._id
-            })
+            if (urlRegex.test(this.state.updatedUrl) &&
+                this.state.updatedTitle &&
+                this.state.updatedAuthor &&
+                this.state.updatedDescription &&
+                this.state.selectedValue[0] &&
+                /^[1-9]\d*$/.test(this.state.updatedChapters) &&
+                dateRegex.test(this.state.updatedFirstPublished) &&
+                this.state.updatedSerialization &&
+                /^[1-9]\d*$/.test(this.state.updatedVolumes)) {
 
-            let updatedManga = {
-                '_id': this.state.beingUpdated._id,
-                'url': this.state.updatedUrl,
-                'title': this.state.updatedTitle,
-                'author_name': this.state.updatedAuthor,
-                'description': this.state.updatedDescription,
-                'genre': this.state.selectedValue.map((obj) => obj.name),
-                'anime_adaptation': this.state.updatedAnimeAdaptation,
-                'chapters': this.state.updatedChapters,
-                'ongoing': this.state.updatedOngoing,
-                'published': this.state.updatedFirstPublished,
-                'serialization': this.state.updatedSerialization,
-                'volumes': this.state.updatedVolumes,
-                'reviews': this.state.beingUpdated.reviews
+                // let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
+                //     'url': this.state.updatedUrl,
+                //     'title': this.state.updatedTitle,
+                //     'author_name': this.state.updatedAuthor,
+                //     'description': this.state.updatedDescription,
+                //     'genre': this.state.selectedValue.map((obj) => obj.name),
+                //     'anime_adaptation': this.state.updatedAnimeAdaptation,
+                //     'chapters': this.state.updatedChapters,
+                //     'ongoing': this.state.updatedOngoing,
+                //     'published': this.state.updatedFirstPublished,
+                //     'serialization': this.state.updatedSerialization,
+                //     'volumes': this.state.updatedVolumes,
+                // })
+
+                let index = this.state.data.findIndex((manga) => {
+                    return manga._id === this.state.beingUpdated._id
+                })
+
+                let updatedManga = {
+                    '_id': this.state.beingUpdated._id,
+                    'url': this.state.updatedUrl,
+                    'title': this.state.updatedTitle,
+                    'author_name': this.state.updatedAuthor,
+                    'description': this.state.updatedDescription,
+                    'genre': this.state.selectedValue.map((obj) => obj.name),
+                    'anime_adaptation': this.state.updatedAnimeAdaptation,
+                    'chapters': this.state.updatedChapters,
+                    'ongoing': this.state.updatedOngoing,
+                    'published': this.state.updatedFirstPublished,
+                    'serialization': this.state.updatedSerialization,
+                    'volumes': this.state.updatedVolumes,
+                    'reviews': this.state.beingUpdated.reviews
+                }
+
+                this.setState({
+                    data: [
+                        ...this.state.data.slice(0, index),
+                        updatedManga,
+                        ...this.state.data.slice(index + 1)
+                    ],
+                    active: 'display',
+                    toUpdate: true
+                })
+
+                alert('Completed')
             }
 
-            this.setState({
-                data: [
-                    ...this.state.data.slice(0, index),
-                    updatedManga,
-                    ...this.state.data.slice(index + 1)
-                ],
-                active: 'display'
-            })
-
-            alert('Completed')
+            else {
+                this.setState({
+                    toUpdate: true
+                })
+                alert('Missing fields')
+            }
         } catch (e) {
             alert('Error')
         }
@@ -338,52 +377,70 @@ export default class LandingPage extends React.Component {
     }
 
     confirmAddReview = async () => {
-        try{
+        try {
 
-            let response = await axios.post(this.url + 'add_review/' + this.state.addViewReview._id, {
-                'title': this.state.addViewReview.title,
-                'plot': this.state.reviewPlot,
-                'main_characters': this.state.reviewMainCharacters,
-                'supporting_characters': this.state.reviewSupportingCharacters,
-                'rating': Number(this.state.reviewRating)
-            })
+            if (this.state.plot &&
+                this.state.plot.length >= 20 &&
+                this.state.mainCharacters &&
+                this.state.mainCharacters.length >= 20 &&
+                this.state.supportingCharacters &&
+                this.state.supportingCharacters.length >= 20 &&
+                this.state.rating) {
 
-            let addedReview = {
-                '_id': response.data.insertedId, //response.data has no insertedId
-                'manga': {
-                    '_id': this.state.addViewReview._id,
-                    'title': this.state.addViewReview.title
-                },
-                'plot': this.state.reviewPlot,
-                'main_characters': this.state.reviewMainCharacters,
-                'supporting_characters': this.state.reviewSupportingCharacters,
-                'rating': Number(this.state.reviewRating)
+                let response = await axios.post(this.url + 'add_review/' + this.state.addViewReview._id, {
+                    'title': this.state.addViewReview.title,
+                    'plot': this.state.reviewPlot,
+                    'main_characters': this.state.reviewMainCharacters,
+                    'supporting_characters': this.state.reviewSupportingCharacters,
+                    'rating': Number(this.state.reviewRating)
+                })
+
+                let addedReview = {
+                    '_id': response.data.insertedId, //response.data has no insertedId
+                    'manga': {
+                        '_id': this.state.addViewReview._id,
+                        'title': this.state.addViewReview.title
+                    },
+                    'plot': this.state.reviewPlot,
+                    'main_characters': this.state.reviewMainCharacters,
+                    'supporting_characters': this.state.reviewSupportingCharacters,
+                    'rating': Number(this.state.reviewRating)
+                }
+
+                let ratingOnlyArray = this.state.reviewData.map((obj) => {
+                    return obj.rating
+                })
+
+                let averageRating = (ratingOnlyArray.reduce((total, current) => { return total + current }, 0) + Number(this.state.reviewRating)) / (ratingOnlyArray.length + 1)
+
+                let index = this.state.data.findIndex((data) => { return data._id === this.state.addViewReview._id })
+
+                let currentManga = this.state.data[index]
+
+                currentManga['average_rating'] = averageRating
+
+                this.setState({
+                    reviewData: [...this.state.reviewData, addedReview],
+                    addViewReview: { ...this.state.addViewReview, 'average_rating': averageRating },
+                    data: [
+                        ...this.state.data.slice(0, index),
+                        currentManga,
+                        ...this.state.data.slice(index + 1)
+                    ],
+                    toAddReview: true
+                })
+
+                alert('Completed')
+
             }
 
-            let ratingOnlyArray = this.state.reviewData.map((obj) => {
-                return obj.rating
-            })
-
-            let averageRating = (ratingOnlyArray.reduce((total, current) => {return total + current}, 0) + Number(this.state.reviewRating)) / (ratingOnlyArray.length + 1)
-
-            let index = this.state.data.findIndex((data) => {return data._id === this.state.addViewReview._id})
-
-            let currentManga = this.state.data[index]
-
-            currentManga['average_rating'] = averageRating
-
-            this.setState({
-                reviewData: [...this.state.reviewData, addedReview],
-                addViewReview: {...this.state.addViewReview, 'average_rating': averageRating},
-                data: [
-                    ...this.state.data.slice(0, index),
-                    currentManga,
-                    ...this.state.data.slice(index + 1)
-                ]
-            })
-
-            alert('Completed')
-        } catch(e) {
+            else {
+                this.setState({
+                    toAddReview: true
+                })
+                alert('Missing fields')
+            }
+        } catch (e) {
             alert('Error')
         }
     }
@@ -452,7 +509,7 @@ export default class LandingPage extends React.Component {
                             {this.state.filteredData.map((obj) => {
                                 return (
                                     <DisplayManga obj={obj}
-                                        viewReview={() => {this.viewReview(obj)}}
+                                        viewReview={() => { this.viewReview(obj) }}
                                         beingUpdated={() => {
                                             this.setState({
                                                 active: 'update-manga',
@@ -562,30 +619,30 @@ export default class LandingPage extends React.Component {
         else if (this.state.active === 'review') {
             return (
                 <Review reviewPlot={this.state.reviewPlot}
-                        reviewMainCharacters={this.state.reviewMainCharacters}
-                        reviewSupportingCharacters={this.state.reviewSupportingCharacters}
-                        reviewRating={this.state.reviewRating}
-                        updateFormField={this.updateFormField}
-                        backToMain={() => {
-                    this.setState({
-                        active: 'display',
-                        reviewPage: 'to-add'
-                    })
-                }}
-                        addViewReview={this.state.addViewReview}
-                        reviewData={this.state.reviewData}
-                        reviewPage={this.state.reviewPage}
-                        addReview={() => {
-                            this.setState({
-                                reviewPage: ''
-                            })
-                        }}
-                        backToAddReview={() => {
-                            this.setState({
-                                reviewPage: 'to-add'
-                            })
-                        }}
-                        confirmAddReview={this.confirmAddReview}/>
+                    reviewMainCharacters={this.state.reviewMainCharacters}
+                    reviewSupportingCharacters={this.state.reviewSupportingCharacters}
+                    reviewRating={this.state.reviewRating}
+                    updateFormField={this.updateFormField}
+                    backToMain={() => {
+                        this.setState({
+                            active: 'display',
+                            reviewPage: 'to-add'
+                        })
+                    }}
+                    addViewReview={this.state.addViewReview}
+                    reviewData={this.state.reviewData}
+                    reviewPage={this.state.reviewPage}
+                    addReview={() => {
+                        this.setState({
+                            reviewPage: ''
+                        })
+                    }}
+                    backToAddReview={() => {
+                        this.setState({
+                            reviewPage: 'to-add'
+                        })
+                    }}
+                    confirmAddReview={this.confirmAddReview} />
             )
         }
     }
