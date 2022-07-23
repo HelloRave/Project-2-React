@@ -9,11 +9,11 @@ export default function UpdateManga(props) {
     return (
         <div className='container border'>
 
-            <div className='d-flex justify-content-center align-items-center'>
+            <div className='d-flex justify-content-center align-items-center my-3'>
                 <img src={props.beingUpdated.url} alt='manga-cover' />
             </div>
 
-            <div>
+            <div className='my-3'>
                 <label className='form-label'>
                     Image
                     {!props.updatedUrl && props.toUpdate ? <span className='validation-text'> * Required field</span> : null} 
@@ -22,11 +22,12 @@ export default function UpdateManga(props) {
                 <input type="text"
                     className='form-control'
                     name='updatedUrl'
+                    style={{ border: `${(!props.updatedUrl || !urlRegex.test(props.updatedUrl)) && props.toUpdate ? '1px solid red' : ''}` }}
                     value={props.updatedUrl}
                     onChange={props.updateFormField} />
             </div>
 
-            <div className='row'>
+            <div className='row my-3'>
                 <div className='col'>
                     <label className='form-label'>
                         Title
@@ -34,6 +35,7 @@ export default function UpdateManga(props) {
                     </label>
                     <input type="text"
                         className='form-control'
+                        style={{ border: `${!props.updatedTitle && props.toUpdate ? '1px solid red' : ''}` }}
                         name='updatedTitle'
                         value={props.updatedTitle}
                         onChange={props.updateFormField} />
@@ -45,13 +47,14 @@ export default function UpdateManga(props) {
                     </label>
                     <input type="text"
                         className='form-control'
+                        style={{ border: `${!props.updatedAuthor && props.toUpdate ? '1px solid red' : ''}` }}
                         name='updatedAuthor'
                         value={props.updatedAuthor}
                         onChange={props.updateFormField} />
                 </div>
             </div>
 
-            <div>
+            <div className='my-3'>
                 <label className='form-label'>
                     Genre
                     {props.selectedValue.length === 0 && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
@@ -67,7 +70,7 @@ export default function UpdateManga(props) {
                 />
             </div>
 
-            <div>
+            <div className='my-3'>
                 <label className='form-label'>
                     Description
                     {!props.updatedDescription && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
@@ -75,6 +78,7 @@ export default function UpdateManga(props) {
                 <p>{props.beingUpdated.description}</p>
                 <textarea className='form-control'
                     name='updatedDescription'
+                    style={{ border: `${!props.updatedDescription && props.toUpdate ? '1px solid red' : ''}` }}
                     placeholder='New Description'
                     value={props.updatedDescription}
                     onChange={props.updateFormField} ></textarea>
@@ -90,6 +94,7 @@ export default function UpdateManga(props) {
                     <input type='text'
                         className='form-control'
                         name='updatedFirstPublished'
+                        style={{ border: `${(!props.updatedFirstPublished || !dateRegex.test(props.updatedFirstPublished)) && props.toUpdate ? '1px solid red' : ''}` }}
                         placeholder='DD-MM-YYYY'
                         value={props.updatedFirstPublished}
                         onChange={props.updateFormField} />
@@ -102,6 +107,7 @@ export default function UpdateManga(props) {
                     </label>
                     <input type='number'
                         className='form-control'
+                        style={{ border: `${(!props.updatedVolumes || !/^[1-9]\d*$/.test(props.updatedVolumes)) && props.toUpdate ? '1px solid red' : ''}` }}
                         name='updatedVolumes'
                         value={props.updatedVolumes}
                         onChange={props.updateNumberFormField} />
@@ -115,6 +121,7 @@ export default function UpdateManga(props) {
                     <input type='number'
                         className='form-control'
                         name='updatedChapters'
+                        style={{ border: `${(!props.updatedChapters || !/^[1-9]\d*$/.test(props.updatedChapters)) && props.toUpdate ? '1px solid red' : ''}` }}
                         value={props.updatedChapters}
                         onChange={props.updateNumberFormField} />
                 </div>
@@ -129,6 +136,7 @@ export default function UpdateManga(props) {
                     <input type='text'
                         className='form-control'
                         name='updatedSerialization'
+                        style={{ border: `${!props.updatedSerialization && props.toUpdate ? '1px solid red' : ''}` }}
                         value={props.updatedSerialization}
                         onChange={props.updateFormField} />
                 </div>
@@ -172,9 +180,9 @@ export default function UpdateManga(props) {
                 </div>
             </div>
 
-            <button className='btn btn-primary btn-sm'
+            <button className='btn btn-primary btn-sm me-2 mb-3'
                 onClick={props.back}>Back</button>
-            <button className='btn btn-danger btn-sm'
+            <button className='btn btn-danger btn-sm mb-3'
                     onClick={props.confirmUpdate}>Confirm</button>
         </div>
     )

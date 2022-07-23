@@ -147,7 +147,7 @@ export default function AddNewManga(props) {
                     </label>
                     <input type='text'
                         className='form-control'
-                        style={{ border: `${!props.serialization && props.toReview ? '1px solid red' : ''}` }}
+                        style={{ border: `${!props.ser && props.toReview ? '1px solid red' : ''}` }}
                         name='serialization'
                         value={props.serialization}
                         onChange={props.updateFormField} />
