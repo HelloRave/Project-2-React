@@ -187,30 +187,46 @@ export default function Review(props) {
                 <div className='container border p-4'>
                     <div className='row gy-3'>
                         <div className='col-12'>
-                            <label className='form-label'>Plot</label>
+                            <label className='form-label'>
+                                Plot
+                                {!props.reviewPlot && props.toAddReview ? <span className='validation-text'> * Required field</span> : null}
+                            </label>
                             <textarea className='form-control'
                                 name='reviewPlot'
+                                style={{ border: `${!props.reviewPlot && props.toAddReview ? '1px solid red' : ''}` }}
                                 value={props.reviewPlot}
                                 onChange={props.updateFormField}></textarea>
                         </div>
                         <div className='col-12'>
-                            <label className='form-label'>Main Characters</label>
+                            <label className='form-label'>
+                                Main Characters
+                                {!props.reviewMainCharacters && props.toAddReview ? <span className='validation-text'> * Required field</span> : null}
+                            </label>
                             <textarea className='form-control'
                                 name='reviewMainCharacters'
+                                style={{ border: `${!props.reviewMainCharacters && props.toAddReview ? '1px solid red' : ''}` }}
                                 value={props.reviewMainCharacters}
                                 onChange={props.updateFormField}></textarea>
                         </div>
                         <div className='col-12'>
-                            <label className='form-label'>Supporting Characters</label>
+                            <label className='form-label'>
+                                Supporting Characters
+                                {!props.reviewSupportingCharacters && props.toAddReview ? <span className='validation-text'> * Required field</span> : null}
+                            </label>
                             <textarea className='form-control'
                                 name='reviewSupportingCharacters'
+                                style={{ border: `${!props.reviewSupportingCharacters && props.toAddReview ? '1px solid red' : ''}` }}
                                 value={props.reviewSupportingCharacters}
                                 onChange={props.updateFormField}></textarea>
                         </div>
                         <div className='col-12 col-md-6 col-lg-4'>
-                            <label className='form-label'>Rating</label>
+                            <label className='form-label'>
+                                Rating
+                                {!props.reviewRating && props.toAddReview ? <span className='validation-text'> * Required field</span> : null}
+                            </label>
                             <select class="form-select"
                                 name='reviewRating'
+                                style={{ border: `${!props.reviewRating && props.toAddReview ? '1px solid red' : ''}` }}
                                 value={props.reviewRating}
                                 onChange={props.updateFormField}>
                                 <option value="">Open this select menu</option>

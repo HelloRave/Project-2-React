@@ -111,6 +111,12 @@ export default class LandingPage extends React.Component {
         }
     }
 
+    changePage = (page) => {
+        this.setState({
+            active: page
+        })
+    }
+
     continueToReview = async () => {
 
         let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
@@ -142,7 +148,7 @@ export default class LandingPage extends React.Component {
 
             await this.setState({
                 newManga: newManga,
-                active: '',
+                active: 'continue-to-review',
                 toReview: true
             })
         } else {
@@ -154,21 +160,12 @@ export default class LandingPage extends React.Component {
 
     }
 
-    changePage = (page) => {
-        this.setState({
-            active: page
-        })
-    }
-
     addNewManga = async () => {
         try {
 
             if (this.state.plot &&
-                this.state.plot.length >= 20 &&
                 this.state.mainCharacters &&
-                this.state.mainCharacters.length >= 20 &&
                 this.state.supportingCharacters &&
-                this.state.supportingCharacters.length >= 20 &&
                 this.state.rating) {
 
                 let authorResponse
@@ -207,24 +204,21 @@ export default class LandingPage extends React.Component {
 
                 this.setState({
                     data: [...this.state.data, lastAdded],
-                    active: 'add-new-manga'
+                    active: 'display',
+                    toAdd: true
                 })
 
                 alert('Completed')
             }
 
             else {
-                // remove alert & display error message 
+                this.setState({
+                    toAdd: true
+                })
                 alert('Empty fields')
             }
-
-
         } catch (e) {
             alert('Error')
-
-            this.setState({
-                toAdd: true
-            })
         }
     }
 
@@ -380,11 +374,8 @@ export default class LandingPage extends React.Component {
         try {
 
             if (this.state.plot &&
-                this.state.plot.length >= 20 &&
                 this.state.mainCharacters &&
-                this.state.mainCharacters.length >= 20 &&
                 this.state.supportingCharacters &&
-                this.state.supportingCharacters.length >= 20 &&
                 this.state.rating) {
 
                 let response = await axios.post(this.url + 'add_review/' + this.state.addViewReview._id, {
@@ -623,6 +614,7 @@ export default class LandingPage extends React.Component {
                     reviewMainCharacters={this.state.reviewMainCharacters}
                     reviewSupportingCharacters={this.state.reviewSupportingCharacters}
                     reviewRating={this.state.reviewRating}
+                    toAddReview={this.state.toAddReview}
                     updateFormField={this.updateFormField}
                     backToMain={() => {
                         this.setState({
