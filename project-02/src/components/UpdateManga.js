@@ -2,6 +2,10 @@ import React from 'react'
 import Multiselect from 'multiselect-react-dropdown'
 
 export default function UpdateManga(props) {
+
+    let dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+    let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+
     return (
         <div className='container border'>
 
@@ -10,7 +14,11 @@ export default function UpdateManga(props) {
             </div>
 
             <div>
-                <label className='form-label'>Image</label>
+                <label className='form-label'>
+                    Image
+                    {!props.updatedUrl && props.toUpdate ? <span className='validation-text'> * Required field</span> : null} 
+                    {props.updatedUrl !== '' && !urlRegex.test(props.updatedUrl) && props.toUpdate ? <span className='validation-text'> * Invalid url</span> : null}
+                </label>
                 <input type="text"
                     className='form-control'
                     name='updatedUrl'
@@ -20,7 +28,10 @@ export default function UpdateManga(props) {
 
             <div className='row'>
                 <div className='col'>
-                    <label className='form-label'>Title</label>
+                    <label className='form-label'>
+                        Title
+                        {!props.updatedTitle && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
+                    </label>
                     <input type="text"
                         className='form-control'
                         name='updatedTitle'
@@ -28,7 +39,10 @@ export default function UpdateManga(props) {
                         onChange={props.updateFormField} />
                 </div>
                 <div className='col'>
-                    <label className='form-label'>Author</label>
+                    <label className='form-label'>
+                        Author
+                        {!props.updatedAuthor && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
+                    </label>
                     <input type="text"
                         className='form-control'
                         name='updatedAuthor'
@@ -38,7 +52,10 @@ export default function UpdateManga(props) {
             </div>
 
             <div>
-                <label className='form-label'>Genre</label>
+                <label className='form-label'>
+                    Genre
+                    {props.selectedValue.length === 0 && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
+                </label>
                 <Multiselect
                     options={props.options}
                     selectedValues={props.selectedValue}
@@ -51,7 +68,10 @@ export default function UpdateManga(props) {
             </div>
 
             <div>
-                <label className='form-label'>Description</label>
+                <label className='form-label'>
+                    Description
+                    {!props.updatedDescription && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
+                </label>
                 <p>{props.beingUpdated.description}</p>
                 <textarea className='form-control'
                     name='updatedDescription'
@@ -62,7 +82,11 @@ export default function UpdateManga(props) {
 
             <div className='row my-3'>
                 <div className='col-4'>
-                    <label className='form-label'>First-published</label>
+                    <label className='form-label'>
+                        First-published
+                        {!props.updatedFirstPublished && props.toUpdate ? <span className='validation-text'> * Required field</span> : null} 
+                        {props.updatedFirstPublished !== '' && !dateRegex.test(props.updatedFirstPublished) && props.toUpdate ? <span>* DD-MM-YYYY</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
                         name='updatedFirstPublished'
@@ -71,7 +95,11 @@ export default function UpdateManga(props) {
                         onChange={props.updateFormField} />
                 </div>
                 <div className='col-4'>
-                    <label className='form-label'>Volumes</label>
+                    <label className='form-label'>
+                        Volumes
+                        {props.updatedVolumes === '' && props.toUpdate ? <span className='validation-text'> * Required field</span> : null} 
+                        {props.updatedVolumes !== '' && !/^[1-9]\d*$/.test(props.updatedVolumes) && props.toUpdate ? <span className='validation-text'> * Positive integer please</span> : null}
+                    </label>
                     <input type='number'
                         className='form-control'
                         name='updatedVolumes'
@@ -79,7 +107,11 @@ export default function UpdateManga(props) {
                         onChange={props.updateNumberFormField} />
                 </div>
                 <div className='col-4'>
-                    <label className='form-label'>Chapters</label>
+                    <label className='form-label'>
+                        Chapters
+                        {props.updatedChapters === '' && props.toUpdate ? <span className='validation-text'> * Required field</span> : null} 
+                        {props.updatedChapters !== '' && !/^[1-9]\d*$/.test(props.updatedChapters) && props.toUpdate ? <span className='validation-text'> * Positive integer please</span> : null}
+                    </label>
                     <input type='number'
                         className='form-control'
                         name='updatedChapters'
@@ -90,7 +122,10 @@ export default function UpdateManga(props) {
 
             <div className='row my-3'>
                 <div className='col-4'>
-                    <label className='form-label'>Serialization</label>
+                    <label className='form-label'>
+                        Serialization
+                        {!props.updatedSerialization && props.toUpdate ? <span className='validation-text'> * Required field</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
                         name='updatedSerialization'

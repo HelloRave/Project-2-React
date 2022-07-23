@@ -566,6 +566,7 @@ export default class LandingPage extends React.Component {
                 updatedSerialization={this.state.updatedSerialization}
                 updatedOngoing={this.state.updatedOngoing}
                 updatedAnimeAdaptation={this.state.updatedAnimeAdaptation}
+                toUpdate={this.state.toUpdate}
                 updateNumberFormField={this.updateNumberFormField}
                 updateFormField={this.updateFormField}
                 updateBooleanFormField={this.updateBooleanFormField}

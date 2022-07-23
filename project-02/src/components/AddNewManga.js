@@ -9,9 +9,14 @@ export default function AddNewManga(props) {
         <div className='container'>
             <div className='row my-3'>
                 <div>
-                    <label className='form-label'>Image {!props.url && props.toReview ? <span>* Required field</span> : null} {props.url !== '' && !urlRegex.test(props.url) && props.toReview ? <span>* Invalid url</span> : null}</label>
+                    <label className='form-label'>
+                        Image 
+                        {!props.url && props.toReview ? <span className='validation-text'> * Required field</span> : null} 
+                        {props.url !== '' && !urlRegex.test(props.url) && props.toReview ? <span className='validation-text'> * Invalid url</span> : null}
+                    </label>
                     <input type="text"
                         className='form-control'
+                        style={{ border: `${(!props.url || !urlRegex.test(props.url)) && props.toReview ? '1px solid red' : ''}` }}
                         name='url'
                         value={props.url}
                         onChange={props.updateFormField} />
@@ -19,7 +24,10 @@ export default function AddNewManga(props) {
             </div>
             <div className='row my-3'>
                 <div className='col-6'>
-                    <label className='form-label'>Title {!props.title && props.toReview ? <span>* Required field</span> : null}</label>
+                    <label className='form-label'>
+                        Title 
+                        {!props.title && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
                         style={{ border: `${!props.title && props.toReview ? '1px solid red' : ''}` }}
@@ -28,9 +36,13 @@ export default function AddNewManga(props) {
                         onChange={props.updateFormField} />
                 </div>
                 <div className='col-6'>
-                    <label className='form-label'>Author {!props.author && props.toReview ? <span>* Required field</span> : null}</label>
+                    <label className='form-label'>
+                        Author 
+                        {!props.author && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
+                        style={{ border: `${!props.author && props.toReview ? '1px solid red' : ''}` }}
                         name='author'
                         value={props.author}
                         onChange={props.updateFormField} />
@@ -38,14 +50,21 @@ export default function AddNewManga(props) {
             </div>
             <div className='row my-3'>
                 <div className='col-12 col-md-6'>
-                    <label className='form-label'>Description {!props.description && props.toReview ? <span>* Required field</span> : null}</label>
+                    <label className='form-label'>
+                        Description 
+                        {!props.description && props.toReview ? <span className='validation-text'> * Required field</span> : null}
+                    </label>
                     <textarea className='form-control'
                         name='description'
+                        style={{ border: `${!props.description && props.toReview ? '1px solid red' : ''}` }}
                         value={props.description}
                         onChange={props.updateFormField} ></textarea>
                 </div>
                 <div className='col-12 col-md-6 mt-3 mt-md-0'>
-                    <p>Genre {props.genre.length === 0 && props.toReview ? <span>* Required field</span> : null}</p>
+                    <p>
+                        Genre 
+                        {props.genre.length === 0 && props.toReview ? <span className='validation-text'> * Required field</span> : null}
+                    </p>
 
                     <div className='row'>
                         {props.allGenre.map((obj) => {
@@ -54,6 +73,7 @@ export default function AddNewManga(props) {
                                     <input type='checkbox'
                                         className='form-check-input'
                                         name='genre'
+                                        style={{ border: `${props.genre.length === 0 && props.toReview ? '1px solid red' : ''}` }}
                                         value={obj.value}
                                         checked={props.genre.includes(obj.value)}
                                         onChange={props.updateGenre} />
@@ -66,26 +86,41 @@ export default function AddNewManga(props) {
             </div>
             <div className='row my-3'>
                 <div className='col-6 col-sm-4'>
-                    <label className='form-label'>First-published {!props.firstPublished && props.toReview ? <span>* Required field</span> : null} {props.firstPublished !== '' && !dateRegex.test(props.firstPublished) && props.toReview ? <span>* DD-MM-YYYY</span> : null}</label>
+                    <label className='form-label'>
+                        First-published 
+                        {!props.firstPublished && props.toReview ? <span className='validation-text'><br className='d-md-none'></br>* Required field</span> : null} 
+                        {props.firstPublished !== '' && !dateRegex.test(props.firstPublished) && props.toReview ? <span className='validation-text'> * DD-MM-YYYY</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
+                        style={{ border: `${(!props.firstPublished || !dateRegex.test(props.firstPublished)) && props.toReview ? '1px solid red' : ''}` }}
                         name='firstPublished'
                         placeholder='DD-MM-YYYY'
                         value={props.firstPublished}
                         onChange={props.updateFormField} />
                 </div>
                 <div className='col-6 col-sm-4'>
-                    <label className='form-label'>Volumes {props.volumes === '' && props.toReview ? <span>* Required field</span> : null} {props.volumes !== '' && !/^[1-9]\d*$/.test(props.volumes) && props.toReview ? <span>* Positive integer please</span> : null}</label>
+                    <label className='form-label'>
+                        Volumes 
+                        {props.volumes === '' && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null} 
+                        {props.volumes !== '' && !/^[1-9]\d*$/.test(props.volumes) && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Positive integer please</span> : null}
+                    </label>
                     <input type='number'
                         className='form-control'
+                        style={{ border: `${(!props.volumes || !/^[1-9]\d*$/.test(props.volumes)) && props.toReview ? '1px solid red' : ''}` }}
                         name='volumes'
                         value={props.volumes}
                         onChange={props.updateNumberFormField} />
                 </div>
                 <div className='d-none d-sm-grid col-4'>
-                    <label className='form-label'>Chapters {props.chapters === '' && props.toReview ? <span>* Required field</span> : null} {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span>* Positive integer please</span> : null}</label>
+                    <label className='form-label'>
+                        Chapters 
+                        {props.chapters === '' && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null} 
+                        {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Positive integer please</span> : null}
+                    </label>
                     <input type='number'
                         className='form-control'
+                        style={{ border: `${(!props.chapters || !/^[1-9]\d*$/.test(props.chapters)) && props.toReview ? '1px solid red' : ''}` }}
                         name='chapters'
                         value={props.chapters}
                         onChange={props.updateNumberFormField} />
@@ -93,17 +128,26 @@ export default function AddNewManga(props) {
             </div>
             <div className='row my-3'>
                 <div className='d-sm-none col-6'>
-                    <label className='form-label'>Chapters {props.chapters === '' && props.toReview ? <span>* Required field</span> : null} {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span>* Positive integer please</span> : null}</label>
+                    <label className='form-label'>
+                        Chapters 
+                        {props.chapters === '' && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null} 
+                        {props.chapters !== '' && !/^[1-9]\d*$/.test(props.chapters) && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Positive integer please</span> : null}
+                    </label>
                     <input type='number'
                         className='form-control'
+                        style={{ border: `${(!props.chapters || !/^[1-9]\d*$/.test(props.chapters)) && props.toReview ? '1px solid red' : ''}` }}
                         name='chapters'
                         value={props.chapters}
                         onChange={props.updateNumberFormField} />
                 </div>
                 <div className='col-6 col-sm-4'>
-                    <label className='form-label'>Serialization {!props.serialization && props.toReview ? <span>* Required field</span> : null}</label>
+                    <label className='form-label'>
+                        Serialization 
+                        {!props.serialization && props.toReview ? <span className='validation-text'><br className='d-md-none'></br> * Required field</span> : null}
+                    </label>
                     <input type='text'
                         className='form-control'
+                        style={{ border: `${!props.serialization && props.toReview ? '1px solid red' : ''}` }}
                         name='serialization'
                         value={props.serialization}
                         onChange={props.updateFormField} />
