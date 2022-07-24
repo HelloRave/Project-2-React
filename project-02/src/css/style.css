@@ -16,3 +16,21 @@
 .validation-text{
     color: red;
 }
+
+.add-new-manga{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2.5rem;
+    font-weight: 1000;
+}
+
+.add-new-manga:hover{
+    background: red;
+    color: white;
+}
+
+/* .add-new-manga-icon{
+    font-size: 2.5rem;
+    font-weight: 1000;
+} */

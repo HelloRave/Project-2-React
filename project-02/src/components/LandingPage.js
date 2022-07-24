@@ -8,6 +8,8 @@ import SearchManga from './SearchManga'
 import Review from './Review'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 
 export default class LandingPage extends React.Component {
@@ -475,49 +477,6 @@ export default class LandingPage extends React.Component {
         if (this.state.active === 'display') {
             return (
                 <div className='container'>
-                    <div className='row g-4'>
-                        {this.state.data.map((obj) => {
-                            return (
-                                <DisplayManga obj={obj}
-                                    viewReview={() => { this.viewReview(obj) }}
-                                    beingUpdated={() => {
-                                        this.setState({
-                                            active: 'update-manga',
-                                            beingUpdated: obj,
-                                            updatedUrl: obj.url,
-                                            updatedTitle: obj.title,
-                                            updatedAuthor: obj.author.name,
-                                            options: this.state.allGenre.map((obj) => {
-                                                return { name: obj.value, id: obj.value }
-                                            }),
-                                            selectedValue: obj.genre.map((str) => {
-                                                return { name: str, id: str }
-                                            }),
-                                            updatedFirstPublished: obj.published,
-                                            updatedVolumes: obj.volumes,
-                                            updatedChapters: obj.chapters,
-                                            updatedSerialization: obj.serialization,
-                                            updatedOngoing: obj.ongoing,
-                                            updatedAnimeAdaptation: obj.anime_adaptation
-                                        })
-                                    }
-                                    }
-                                    beingDeleted={() => {
-                                        this.setState({
-                                            beingDeleted: obj
-                                        })
-                                    }
-                                    }
-                                    confirmDelete={this.confirmDelete} />
-                            )
-                        })}
-                    </div>
-                </div>
-            )
-        }
-        else if (this.state.active === 'search') {
-            return (
-                <React.Fragment>
                     <SearchManga findTitle={this.state.findTitle}
                         findAuthor={this.state.findAuthor}
                         findVolume={this.state.findVolume}
@@ -529,8 +488,14 @@ export default class LandingPage extends React.Component {
                         updateFormField={this.updateFormField}
                         updateBooleanFormField={this.updateBooleanFormField}
                         updateGenre={this.updateGenre}
+                        resetFields={() => {
+                            this.setState({
+                                filteredData: []
+                            })
+                        }}
                         searchManga={this.searchManga} />
-                    <div className='container'>
+
+                    {this.state.filteredData[0] ?
                         <div className='row g-4'>
                             {this.state.filteredData.map((obj) => {
                                 return (
@@ -568,9 +533,53 @@ export default class LandingPage extends React.Component {
                                 )
                             })}
                         </div>
-                    </div>
-                </React.Fragment>
 
+                        :
+
+                        <div className='row g-4'>
+                            {this.state.data.map((obj) => {
+                                return (
+                                    <DisplayManga obj={obj}
+                                        viewReview={() => { this.viewReview(obj) }}
+                                        beingUpdated={() => {
+                                            this.setState({
+                                                active: 'update-manga',
+                                                beingUpdated: obj,
+                                                updatedUrl: obj.url,
+                                                updatedTitle: obj.title,
+                                                updatedAuthor: obj.author.name,
+                                                options: this.state.allGenre.map((obj) => {
+                                                    return { name: obj.value, id: obj.value }
+                                                }),
+                                                selectedValue: obj.genre.map((str) => {
+                                                    return { name: str, id: str }
+                                                }),
+                                                updatedFirstPublished: obj.published,
+                                                updatedVolumes: obj.volumes,
+                                                updatedChapters: obj.chapters,
+                                                updatedSerialization: obj.serialization,
+                                                updatedOngoing: obj.ongoing,
+                                                updatedAnimeAdaptation: obj.anime_adaptation
+                                            })
+                                        }
+                                        }
+                                        beingDeleted={() => {
+                                            this.setState({
+                                                beingDeleted: obj
+                                            })
+                                        }
+                                        }
+                                        confirmDelete={this.confirmDelete} />
+                                )
+                            })}
+                        </div>}
+
+                    <div className='add-new-manga d-none d-sm-inline border p-1'
+                        onClick={() => this.changePage('add-new-manga')}>
+                        +
+                    </div>
+
+                </div>
             )
         }
         else if (this.state.active === 'update-manga') {
@@ -691,14 +700,6 @@ export default class LandingPage extends React.Component {
                                     <a className={this.state.active === 'display' ? 'nav-link active text-center' : 'nav-link text-center'}
                                         href="#"
                                         onClick={() => this.changePage('display')}>Home</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className={this.state.active === 'search' ? 'nav-link active text-center' : 'nav-link text-center'}
-                                        href="#"
-                                        onClick={() => this.changePage('search')}>Search</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className={this.state.active === 'add-new-manga' ? 'nav-link active text-center' : 'nav-link text-center'} href="#" onClick={() => this.changePage('add-new-manga')}>Add New</a>
                                 </li>
                             </ul>
                         </div>
