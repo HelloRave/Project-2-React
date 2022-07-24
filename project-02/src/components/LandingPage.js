@@ -6,14 +6,35 @@ import DisplayManga from './DisplayManga'
 import UpdateManga from './UpdateManga'
 import SearchManga from './SearchManga'
 import Review from './Review'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default class LandingPage extends React.Component {
 
     url = 'https://8888-hellorave-project2expre-phg10y0wbqg.ws-us54.gitpod.io/'
 
+    initialState = {
+        url: '',
+        title: '',
+        author_id: '',
+        author: '',
+        description: '',
+        genre: [],
+        firstPublished: '',
+        volumes: '',
+        chapters: '',
+        serialization: '',
+        ongoing: true,
+        animeAdaptation: true,
+        plot: '',
+        mainCharacters: '',
+        supportingCharacters: '',
+        rating: ''
+    }
+
     state = {
-        data: [], // to be used to display manga cards
+        data: [],
         newManga: {},
         active: 'display',
         url: '',
@@ -48,7 +69,7 @@ export default class LandingPage extends React.Component {
         updatedSerialization: '',
         updatedOngoing: '',
         updatedAnimeAdaptation: '',
-        toUpdate: false, 
+        toUpdate: false,
         beingDeleted: {},
         filteredData: [],
         findTitle: '',
@@ -272,7 +293,7 @@ export default class LandingPage extends React.Component {
                     '_id': this.state.beingUpdated._id,
                     'url': this.state.updatedUrl,
                     'title': this.state.updatedTitle,
-                    'author':{
+                    'author': {
                         '_id': this.state.beingUpdated.author._id,
                         'name': this.state.updatedAuthor
                     },
@@ -297,7 +318,15 @@ export default class LandingPage extends React.Component {
                     toUpdate: true
                 })
 
-                alert('Completed')
+                toast('🦄 Manga Updated!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
 
             else {
@@ -679,6 +708,18 @@ export default class LandingPage extends React.Component {
                 <div className='container-fluid my-4'>
                     {this.renderPage()}
                 </div>
+
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
 
             </React.Fragment>
 

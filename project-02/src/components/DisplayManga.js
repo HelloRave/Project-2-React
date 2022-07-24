@@ -20,7 +20,7 @@ export default function DisplayManga(props) {
                     </div>
                     <div id='buttons' className='d-flex justify-content-around align-items-center'>
                         <button className='btn btn-primary btn-sm'
-                                onClick={props.viewReview}>
+                            onClick={props.viewReview}>
                             <FontAwesomeIcon icon={faThumbsUp} />
                             <span className='ms-1'>Review</span>
                         </button>
@@ -52,7 +52,7 @@ export default function DisplayManga(props) {
                                                 aria-label="Close"></button>
                                         </div>
                                         <div className="d-flex flex-column justify-content-center align-items-center mt-4">
-                                            <FontAwesomeIcon icon={faCircleExclamation} className='alert-icon'/>
+                                            <FontAwesomeIcon icon={faCircleExclamation} className='alert-icon' />
                                             <h4 className='my-4'>Are you sure you want to delete</h4>
                                             <p className='title-to-delete'>{props.obj.title}</p>
                                             <p>You will not be able to revert this!</p>
