@@ -250,19 +250,19 @@ export default class LandingPage extends React.Component {
                 this.state.updatedSerialization &&
                 /^[1-9]\d*$/.test(this.state.updatedVolumes)) {
 
-                // let response = await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
-                //     'url': this.state.updatedUrl,
-                //     'title': this.state.updatedTitle,
-                //     'author_name': this.state.updatedAuthor,
-                //     'description': this.state.updatedDescription,
-                //     'genre': this.state.selectedValue.map((obj) => obj.name),
-                //     'anime_adaptation': this.state.updatedAnimeAdaptation,
-                //     'chapters': this.state.updatedChapters,
-                //     'ongoing': this.state.updatedOngoing,
-                //     'published': this.state.updatedFirstPublished,
-                //     'serialization': this.state.updatedSerialization,
-                //     'volumes': this.state.updatedVolumes,
-                // })
+                await axios.patch(this.url + 'update_manga/' + this.state.beingUpdated._id, {
+                    'url': this.state.updatedUrl,
+                    'title': this.state.updatedTitle,
+                    'author_name': this.state.updatedAuthor,
+                    'description': this.state.updatedDescription,
+                    'genre': this.state.selectedValue.map((obj) => obj.name),
+                    'anime_adaptation': this.state.updatedAnimeAdaptation,
+                    'chapters': this.state.updatedChapters,
+                    'ongoing': this.state.updatedOngoing,
+                    'published': this.state.updatedFirstPublished,
+                    'serialization': this.state.updatedSerialization,
+                    'volumes': this.state.updatedVolumes,
+                })
 
                 let index = this.state.data.findIndex((manga) => {
                     return manga._id === this.state.beingUpdated._id
@@ -272,7 +272,10 @@ export default class LandingPage extends React.Component {
                     '_id': this.state.beingUpdated._id,
                     'url': this.state.updatedUrl,
                     'title': this.state.updatedTitle,
-                    'author_name': this.state.updatedAuthor,
+                    'author':{
+                        '_id': this.state.beingUpdated.author._id,
+                        'name': this.state.updatedAuthor
+                    },
                     'description': this.state.updatedDescription,
                     'genre': this.state.selectedValue.map((obj) => obj.name),
                     'anime_adaptation': this.state.updatedAnimeAdaptation,
@@ -308,8 +311,11 @@ export default class LandingPage extends React.Component {
         }
     }
 
-    confirmDelete = () => {
+    confirmDelete = async () => {
         try {
+
+            await axios.delete(this.url + 'delete_manga/' + this.state.beingDeleted._id)
+
             let index = this.state.data.findIndex((manga) => {
                 return manga._id === this.state.beingDeleted._id
             })
