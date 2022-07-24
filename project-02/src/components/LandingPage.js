@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://8888-hellorave-project2expre-phg10y0wbqg.ws-us54.gitpod.io/'
+    url = 'https://hww-tgc18-project-02.herokuapp.com/'
 
     initialState = {
         url: '',
