@@ -239,7 +239,7 @@ export default function Review(props) {
                         </div>
                         <div className='col-12'>
                             <button className='btn btn-secondary me-2'
-                                onClick={props.backToAddReview}>Back</button>
+                                onClick={props.backToAddReview}>Cancel</button>
                             <button className='btn btn-primary'
                                 onClick={props.confirmAddReview}>Add</button>
                         </div>

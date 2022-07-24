@@ -191,6 +191,8 @@ export default function AddNewManga(props) {
                     <label className='form-check-label ms-2'>No</label>
                 </div>
             </div>
+            <button className='btn btn-secondary me-2'
+                onClick={props.backToDisplay}>Cancel</button>
             <button className='btn btn-primary'
                 onClick={props.continueToReview}>Next</button>
         </div>

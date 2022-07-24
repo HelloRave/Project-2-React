@@ -149,15 +149,15 @@ export default function UpdateManga(props) {
                         value='true'
                         checked={props.updatedOngoing === true}
                         onChange={props.updateBooleanFormField} />
-                    <label className='form-check-label ms-2'>Yes</label>
+                    <label className='form-check-label ms-1 ms-sm-2'>Yes</label>
 
                     <input type='radio'
                         name='updatedOngoing'
-                        className='form-check-input ms-4'
+                        className='form-check-input ms-1 ms-sm-4'
                         value='false'
                         checked={props.updatedOngoing === false}
                         onChange={props.updateBooleanFormField} />
-                    <label className='form-check-label ms-2'>No</label>
+                    <label className='form-check-label ms-1 ms-sm-2'>No</label>
                 </div>
                 <div className='col-4'>
                     <p>Anime Adaptation</p>
@@ -168,15 +168,15 @@ export default function UpdateManga(props) {
                         value='true'
                         checked={props.updatedAnimeAdaptation === true}
                         onChange={props.updateBooleanFormField} />
-                    <label className='form-check-label ms-2'>Yes</label>
+                    <label className='form-check-label ms-1 ms-sm-2'>Yes</label>
 
                     <input type='radio'
                         name='updatedAnimeAdaptation'
-                        className='form-check-input ms-4'
+                        className='form-check-input ms-1 ms-sm-4'
                         value='false'
                         checked={props.updatedAnimeAdaptation === false}
                         onChange={props.updateBooleanFormField} />
-                    <label className='form-check-label ms-2'>No</label>
+                    <label className='form-check-label ms-1 ms-sm-2'>No</label>
                 </div>
             </div>
 

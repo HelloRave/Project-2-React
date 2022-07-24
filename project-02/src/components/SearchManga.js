@@ -21,7 +21,7 @@ export default function SearchManga(props) {
                         data-bs-parent="#formAccordion">
                         <div class="accordion-body">
                             <div className='container'>
-                                <div className='row'>
+                                <div className='row my-3'>
                                     <div className='col-6'>
                                         <label className='form-label'>Title</label>
                                         <input type='text'
@@ -39,7 +39,7 @@ export default function SearchManga(props) {
                                             onChange={props.updateFormField} />
                                     </div>
                                 </div>
-                                <div className='row'>
+                                <div className='row my-3 gy-3'>
                                     <div className='col-6 col-md-4'>
                                         <label className='form-label'>Volumes</label>
                                         <select class="form-select"
@@ -104,7 +104,7 @@ export default function SearchManga(props) {
                                         <div className='row'>
                                             {props.allGenre.map((obj) => {
                                                 return (
-                                                    <div key={obj.value} className='col-4 col-lg-3'>
+                                                    <div key={obj.value} className='col-6 col-md-4 col-lg-3'>
                                                         <input type='checkbox'
                                                             className='form-check-input'
                                                             name='findGenre'

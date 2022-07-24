@@ -8,9 +8,6 @@ import SearchManga from './SearchManga'
 import Review from './Review'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-
 
 export default class LandingPage extends React.Component {
 
@@ -178,6 +175,15 @@ export default class LandingPage extends React.Component {
             this.setState({
                 toReview: true
             })
+            toast.warn('Please fill in empty fields!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
 
 
@@ -231,17 +237,42 @@ export default class LandingPage extends React.Component {
                     toAdd: true
                 })
 
-                alert('Completed')
+                toast('New Manga Added!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
 
             else {
                 this.setState({
                     toAdd: true
                 })
-                alert('Empty fields')
+                
+                toast.warn('Please fill in empty fields!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
     }
 
@@ -320,7 +351,7 @@ export default class LandingPage extends React.Component {
                     toUpdate: true
                 })
 
-                toast('🦄 Manga Updated!', {
+                toast('Manga Updated!', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -335,10 +366,26 @@ export default class LandingPage extends React.Component {
                 this.setState({
                     toUpdate: true
                 })
-                alert('Missing fields')
+                toast.warn('Please fill in empty fields!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
     }
 
@@ -356,7 +403,15 @@ export default class LandingPage extends React.Component {
             })
 
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
     }
 
@@ -381,9 +436,25 @@ export default class LandingPage extends React.Component {
                 filteredData: response.data
             })
 
-            alert('Completed')
+            toast('Search Completed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
 
     }
@@ -402,7 +473,15 @@ export default class LandingPage extends React.Component {
                 active: 'review'
             })
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
 
     }
@@ -458,7 +537,15 @@ export default class LandingPage extends React.Component {
                     toAddReview: true
                 })
 
-                alert('Completed')
+                toast('Review Added!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
 
             }
 
@@ -466,10 +553,26 @@ export default class LandingPage extends React.Component {
                 this.setState({
                     toAddReview: true
                 })
-                alert('Missing fields')
+                toast.warn('Please fill in empty fields!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
             }
         } catch (e) {
-            alert('Error')
+            toast.error('500 Internal Server Error', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         }
     }
 
@@ -632,6 +735,11 @@ export default class LandingPage extends React.Component {
                     updateGenre={this.updateGenre}
                     updateNumberFormField={this.updateNumberFormField}
                     updateBooleanFormField={this.updateBooleanFormField}
+                    backToDisplay={()=>{
+                        this.setState({
+                            active: 'display'
+                        })
+                    }}
                     continueToReview={this.continueToReview} />
             )
         }
@@ -688,7 +796,7 @@ export default class LandingPage extends React.Component {
         return (
             <React.Fragment>
                 {/* NavBar */}
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="#" onClick={() => this.changePage('display')}>Navbar</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -704,7 +812,7 @@ export default class LandingPage extends React.Component {
                             </ul>
                         </div>
                     </div>
-                </nav>
+                </nav> */}
 
                 <div className='container-fluid my-4'>
                     {this.renderPage()}
