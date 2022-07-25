@@ -7,7 +7,7 @@ export default function UpdateManga(props) {
     let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
     return (
-        <div className='container border'>
+        <div className='container border bg-light'>
 
             <div className='d-flex justify-content-center align-items-center my-3'>
                 <img src={props.beingUpdated.url} alt='manga-cover' />
