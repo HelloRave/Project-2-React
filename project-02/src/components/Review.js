@@ -41,7 +41,7 @@ export default function Review(props) {
                             <div className='col-12 col-sm-4'>
                                 <CircularProgressbar value={props.addViewReview.average_rating}
                                     maxValue={5}
-                                    text={props.addViewReview.average_rating}
+                                    text={(props.addViewReview.average_rating).toFixed(2)}
                                     counterClockwise={true}
                                     styles={buildStyles({
                                         strokeLinecap: 'round',
@@ -55,27 +55,27 @@ export default function Review(props) {
                                 <div className='d-flex align-items-center my-2'>
                                     <label>5 stars: </label>
                                     <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(5).length / props.reviewData.length) * 100} />
-                                    <label>{`${(returnRating(5).length / props.reviewData.length) * 100}%`}</label>
+                                    <label>{`${((returnRating(5).length / props.reviewData.length) * 100).toFixed(2)}%`}</label>
                                 </div>
                                 <div className='d-flex align-items-center my-2'>
                                     <label>4 stars: </label>
                                     <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(4).length / props.reviewData.length) * 100} />
-                                    <label>{`${(returnRating(4).length / props.reviewData.length) * 100}%`}</label>
+                                    <label>{`${((returnRating(4).length / props.reviewData.length) * 100).toFixed(2)}%`}</label>
                                 </div>
                                 <div className='d-flex align-items-center my-2'>
                                     <label>3 stars: </label>
                                     <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(3).length / props.reviewData.length) * 100} />
-                                    <label>{`${(returnRating(3).length / props.reviewData.length) * 100}%`}</label>
+                                    <label>{`${((returnRating(3).length / props.reviewData.length) * 100).toFixed(2)}%`}</label>
                                 </div>
                                 <div className='d-flex align-items-center my-2'>
                                     <label>2 stars: </label>
                                     <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(2).length / props.reviewData.length) * 100} />
-                                    <label>{`${(returnRating(2).length / props.reviewData.length) * 100}%`}</label>
+                                    <label>{`${((returnRating(2).length / props.reviewData.length) * 100).toFixed(2)}%`}</label>
                                 </div>
                                 <div className='d-flex align-items-center my-2'>
                                     <label>1 stars: </label>
                                     <ProgressBar className='flex-grow-1 mx-2' variant="success" now={(returnRating(1).length / props.reviewData.length) * 100} />
-                                    <label>{`${(returnRating(1).length / props.reviewData.length) * 100}%`}</label>
+                                    <label>{`${((returnRating(1).length / props.reviewData.length) * 100).toFixed(2)}%`}</label>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ export default function Review(props) {
                     props.reviewData.map((obj) => {
                         return (
                             <React.Fragment>
-                                <div className='container border my-3 p-4'>
+                                <div className='container my-3 p-4 each-review'>
                                     <div className='mb-3'>
                                         Rating: <tab></tab>
                                         {[...Array(obj.rating)].map((element, index) => {
@@ -184,7 +184,7 @@ export default function Review(props) {
 
                 :
 
-                <div className='container border p-4'>
+                <div className='container p-4 add-new-review'>
                     <div className='row gy-3'>
                         <div className='col-12'>
                             <label className='form-label'>

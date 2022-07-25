@@ -32,6 +32,24 @@ export default class LandingPage extends React.Component {
         rating: ''
     }
 
+    initialStateSearchManga = {
+        filteredData: [],
+        findTitle: '',
+        findAuthor: '',
+        findVolume: '',
+        findChapter: '',
+        findRating: '',
+        findOngoing: '',
+        findGenre: []
+    }
+
+    initialStateAddNewReview = {
+        reviewPlot: '',
+        reviewMainCharacters: '',
+        reviewSupportingCharacters: '',
+        reviewRating: ''
+    }
+
     state = {
         data: [],
         newManga: {},
@@ -489,10 +507,10 @@ export default class LandingPage extends React.Component {
     confirmAddReview = async () => {
         try {
 
-            if (this.state.plot &&
-                this.state.mainCharacters &&
-                this.state.supportingCharacters &&
-                this.state.rating) {
+            if (this.state.reviewPlot &&
+                this.state.reviewMainCharacters &&
+                this.state.reviewSupportingCharacters &&
+                this.state.reviewRating) {
 
                 let response = await axios.post(this.url + 'add_review/' + this.state.addViewReview._id, {
                     'title': this.state.addViewReview.title,
@@ -534,7 +552,9 @@ export default class LandingPage extends React.Component {
                         currentManga,
                         ...this.state.data.slice(index + 1)
                     ],
-                    toAddReview: true
+                    toAddReview: false,
+                    reviewPage: 'to-add',
+                    ...this.initialStateAddNewReview
                 })
 
                 toast('Review Added!', {
@@ -592,9 +612,7 @@ export default class LandingPage extends React.Component {
                         updateBooleanFormField={this.updateBooleanFormField}
                         updateGenre={this.updateGenre}
                         resetFields={() => {
-                            this.setState({
-                                filteredData: []
-                            })
+                            this.setState(this.initialStateSearchManga)
                         }}
                         searchManga={this.searchManga} />
 
@@ -771,7 +789,8 @@ export default class LandingPage extends React.Component {
                     backToMain={() => {
                         this.setState({
                             active: 'display',
-                            reviewPage: 'to-add'
+                            reviewPage: 'to-add',
+                            ...this.initialStateAddNewReview
                         })
                     }}
                     addViewReview={this.state.addViewReview}
@@ -779,12 +798,13 @@ export default class LandingPage extends React.Component {
                     reviewPage={this.state.reviewPage}
                     addReview={() => {
                         this.setState({
-                            reviewPage: ''
+                            reviewPage: 'form'
                         })
                     }}
                     backToAddReview={() => {
                         this.setState({
-                            reviewPage: 'to-add'
+                            reviewPage: 'to-add',
+                            ...this.initialStateAddNewReview
                         })
                     }}
                     confirmAddReview={this.confirmAddReview} />

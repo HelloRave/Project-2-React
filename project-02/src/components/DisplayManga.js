@@ -16,7 +16,17 @@ export default function DisplayManga(props) {
                         <div id='manga-image' className='col-5 p-0'>
                             <img src={props.obj.url} alt='manga-cover' />
                         </div>
-                        <div id='manga-description' className='col-7'>{props.obj.description}</div>
+                        <div id='manga-description' className='col-7'>
+                            <div>
+                                {props.obj.description}
+                            </div>
+                            <div className='manga-author my-3'>
+                                <strong>Author:</strong> <span> {props.obj.author.name}</span>
+                            </div>
+                            <div>
+                                <strong>Serialization:</strong> <span> {props.obj.serialization}</span>
+                            </div>
+                        </div>
                     </div>
                     <div id='buttons' className='d-flex justify-content-around align-items-center'>
                         <button className='btn btn-primary btn-sm'
