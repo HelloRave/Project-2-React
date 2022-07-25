@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Proza+Libre&display=swap');
 @import './badges.css';
 @import './card.css';
 @import './reviews.css';
+@import './displayPage.css';
 
 .display-page{
     background-image: url(../images/background2.jpg);
@@ -28,33 +30,76 @@
 .text-div{
     z-index:400001;
     background-color: rgba(255,255,255,0.8);
-    height: 60vh;
+    height: 70vh;
     width: 60vw;
+    border-radius: 20px;
 }
 
-.alert-icon{
-    color: #FF6663;
-    font-size: 100px;
+.landing-text{
+    font-size:1.7rem;
+    font-weight: 700;
+    font-family: 'Proza Libre', sans-serif;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation-name: text-background-change;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
-.title-to-delete{
-    font-weight: bold;
-    color: #FF6663;
+.btn-border{
+    background: linear-gradient(90deg, #4458dc, #854fee);
+    border: none;
+    color: whitesmoke; 
+    position: relative;
+    transition: background 0.5s ease-in;
 }
 
-.validation-text{
-    color: red;
+.btn-border:hover{
+    border: none;
+    background: white;
+    background-clip: padding-box;
+    color: black;
 }
 
-.add-new-manga{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 2.5rem;
-    font-weight: 1000;
+.btn-border::after{
+    content: '';
+    background: linear-gradient(90deg, #4458dc, #854fee);
+    border-radius: 4px;
+    position: absolute;
+    top: -2px; 
+    bottom: -2px;
+    left: -2px;
+    right: -2px;
+    z-index: -1;
 }
 
-.add-new-manga:hover{
-    background: red;
-    color: white;
+@keyframes text-background-change {
+    0% {
+        background-image: linear-gradient(45deg, #F59CA9, #F6828C, #DF57BC, #A03E99, #371E30);
+    }
+
+    20% {
+        background-image: linear-gradient(45deg, #371E30, #F59CA9, #F6828C, #DF57BC, #A03E99);
+    }
+
+    40% {
+        background-image: linear-gradient(45deg, #A03E99, #371E30, #F59CA9, #F6828C, #DF57BC);
+    }
+
+    60% {
+        background-image: linear-gradient(45deg, #DF57BC, #A03E99, #371E30, #F59CA9, #F6828C);
+    }
+
+    80% {
+        background-image: linear-gradient(45deg, #F6828C, #DF57BC, #A03E99, #371E30, #F59CA9);
+    }
+
+    100% {
+        background-image: linear-gradient(45deg, #F59CA9, #F6828C, #DF57BC, #A03E99, #371E30);
+    }
 }
+
