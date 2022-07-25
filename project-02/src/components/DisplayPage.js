@@ -13,10 +13,9 @@ export default class LandingPage extends React.Component {
 
     url = 'https://hww-tgc18-project-02.herokuapp.com/'
 
-    initialState = {
+    initialStateAddManga = {
         url: '',
         title: '',
-        author_id: '',
         author: '',
         description: '',
         genre: [],
@@ -26,6 +25,7 @@ export default class LandingPage extends React.Component {
         serialization: '',
         ongoing: true,
         animeAdaptation: true,
+        toReview: false,
         plot: '',
         mainCharacters: '',
         supportingCharacters: '',
@@ -187,7 +187,7 @@ export default class LandingPage extends React.Component {
             await this.setState({
                 newManga: newManga,
                 active: 'continue-to-review',
-                toReview: true
+                toReview: false
             })
         } else {
             this.setState({
@@ -252,7 +252,11 @@ export default class LandingPage extends React.Component {
                 this.setState({
                     data: [...this.state.data, lastAdded],
                     active: 'display',
-                    toAdd: true
+                    toAdd: false,
+                    plot: '',
+                    mainCharacters: '',
+                    supportingCharacters: '',
+                    rating: '' //also reset the state for page 1
                 })
 
                 toast('New Manga Added!', {
@@ -366,7 +370,8 @@ export default class LandingPage extends React.Component {
                         ...this.state.data.slice(index + 1)
                     ],
                     active: 'display',
-                    toUpdate: true
+                    toUpdate: false,
+                    updatedDescription: ''
                 })
 
                 toast('Manga Updated!', {
@@ -728,7 +733,8 @@ export default class LandingPage extends React.Component {
                 updateBooleanFormField={this.updateBooleanFormField}
                 back={() => {
                     this.setState({
-                        active: 'display'
+                        active: 'display',
+                        updatedDescription: ''
                     })
                 }}
                 confirmUpdate={this.confirmUpdate} />
@@ -755,7 +761,8 @@ export default class LandingPage extends React.Component {
                     updateBooleanFormField={this.updateBooleanFormField}
                     backToDisplay={() => {
                         this.setState({
-                            active: 'display'
+                            active: 'display',
+                            ...this.initialStateAddManga
                         })
                     }}
                     continueToReview={this.continueToReview} />
@@ -772,7 +779,12 @@ export default class LandingPage extends React.Component {
                     updateNumberFormField={this.updateNumberFormField}
                     backToFirstPage={() => {
                         this.setState({
-                            active: 'add-new-manga'
+                            active: 'add-new-manga',
+                            toAdd: false, 
+                            plot: '',
+                            mainCharacters: '',
+                            supportingCharacters: '',
+                            rating: ''
                         })
                     }}
                     confirmAdd={this.addNewManga} />
