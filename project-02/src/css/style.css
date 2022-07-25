@@ -2,6 +2,14 @@
 @import './card.css';
 @import './reviews.css';
 
+.display-page{
+    background-image: url(../images/background2.jpg);
+}
+
+.overlay{
+    height: 100%;
+    background-color: rgba(0,0,0,0.1);
+}
 
 .alert-icon{
     color: #FF6663;
@@ -29,8 +37,3 @@
     background: red;
     color: white;
 }
-
-/* .add-new-manga-icon{
-    font-size: 2.5rem;
-    font-weight: 1000;
-} */

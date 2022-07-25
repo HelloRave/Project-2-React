@@ -13,6 +13,9 @@
 }
 
 #card-title {
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     height: 15%;
     font-weight: bold;
     color: rgb(29,67,155); 
@@ -49,6 +52,7 @@
 #manga-description {
     height: 100%;
     overflow: hidden;
+    background-color: white;
 }
 
 #manga-description:hover {

@@ -252,7 +252,7 @@ export default class LandingPage extends React.Component {
                 this.setState({
                     toAdd: true
                 })
-                
+
                 toast.warn('Please fill in empty fields!', {
                     position: "top-right",
                     autoClose: 5000,
@@ -735,7 +735,7 @@ export default class LandingPage extends React.Component {
                     updateGenre={this.updateGenre}
                     updateNumberFormField={this.updateNumberFormField}
                     updateBooleanFormField={this.updateBooleanFormField}
-                    backToDisplay={()=>{
+                    backToDisplay={() => {
                         this.setState({
                             active: 'display'
                         })
@@ -795,27 +795,11 @@ export default class LandingPage extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/* NavBar */}
-                {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="#" onClick={() => this.changePage('display')}>Navbar</a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <a className={this.state.active === 'display' ? 'nav-link active text-center' : 'nav-link text-center'}
-                                        href="#"
-                                        onClick={() => this.changePage('display')}>Home</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav> */}
 
-                <div className='container-fluid my-4'>
-                    {this.renderPage()}
+                <div className='container-fluid p-0 display-page'>
+                    <div className='pb-4 overlay'>
+                        {this.renderPage()}
+                    </div>
                 </div>
 
                 <ToastContainer

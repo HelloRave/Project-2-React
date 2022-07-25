@@ -3,7 +3,7 @@ import React from 'react'
 export default function SearchManga(props) {
     return (
         <React.Fragment>
-            <div class="accordion my-3" id="formAccordion">
+            <div class="accordion mb-3" id="formAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="accordionHeader">
                         <button class="accordion-button"
