@@ -105,7 +105,8 @@ export default class LandingPage extends React.Component {
         reviewMainCharacters: '',
         reviewSupportingCharacters: '',
         reviewRating: '',
-        toAddReview: false
+        toAddReview: false,
+        toSearch: false,
     }
 
     async componentDidMount() {
@@ -459,7 +460,8 @@ export default class LandingPage extends React.Component {
             })
 
             this.setState({
-                filteredData: response.data
+                filteredData: response.data,
+                toSearch: true
             })
 
             toast('Search Completed!', {
@@ -620,56 +622,68 @@ export default class LandingPage extends React.Component {
                         updateBooleanFormField={this.updateBooleanFormField}
                         updateGenre={this.updateGenre}
                         resetFields={() => {
-                            this.setState(this.initialStateSearchManga)
+                            this.setState(
+                                {
+                                    ...this.initialStateSearchManga,
+                                    toSearch: false
+                                }
+                            )
                         }}
                         searchManga={this.searchManga} />
 
                     <div class="d-grid d-sm-none mb-3">
                         <button class="btn btn-primary btn-border"
-                                onClick={() => this.changePage('add-new-manga')}>
-                                    Add New Manga
+                            onClick={() => this.changePage('add-new-manga')}>
+                            Add New Manga
                         </button>
                     </div>
 
-                    {this.state.filteredData[0] ?
-                        <div className='row g-4'>
-                            {this.state.filteredData.map((obj) => {
-                                return (
-                                    <DisplayManga obj={obj}
-                                        viewReview={() => { this.viewReview(obj) }}
-                                        beingUpdated={() => {
-                                            this.setState({
-                                                active: 'update-manga',
-                                                beingUpdated: obj,
-                                                updatedUrl: obj.url,
-                                                updatedTitle: obj.title,
-                                                updatedAuthor: obj.author.name,
-                                                options: this.state.allGenre.map((obj) => {
-                                                    return { name: obj.value, id: obj.value }
-                                                }),
-                                                selectedValue: obj.genre.map((str) => {
-                                                    return { name: str, id: str }
-                                                }),
-                                                updatedFirstPublished: obj.published,
-                                                updatedVolumes: obj.volumes,
-                                                updatedChapters: obj.chapters,
-                                                updatedSerialization: obj.serialization,
-                                                updatedOngoing: obj.ongoing,
-                                                updatedAnimeAdaptation: obj.anime_adaptation
-                                            })
-                                        }
-                                        }
-                                        beingDeleted={() => {
-                                            this.setState({
-                                                beingDeleted: obj
-                                            })
-                                        }
-                                        }
-                                        confirmDelete={this.confirmDelete} />
-                                )
-                            })}
-                        </div>
+                    {this.state.toSearch ?
 
+                        (this.state.filteredData[0] ?
+                            <div className='row g-4'>
+                                {this.state.filteredData.map((obj) => {
+                                    return (
+                                        <DisplayManga obj={obj}
+                                            viewReview={() => { this.viewReview(obj) }}
+                                            beingUpdated={() => {
+                                                this.setState({
+                                                    active: 'update-manga',
+                                                    beingUpdated: obj,
+                                                    updatedUrl: obj.url,
+                                                    updatedTitle: obj.title,
+                                                    updatedAuthor: obj.author.name,
+                                                    options: this.state.allGenre.map((obj) => {
+                                                        return { name: obj.value, id: obj.value }
+                                                    }),
+                                                    selectedValue: obj.genre.map((str) => {
+                                                        return { name: str, id: str }
+                                                    }),
+                                                    updatedFirstPublished: obj.published,
+                                                    updatedVolumes: obj.volumes,
+                                                    updatedChapters: obj.chapters,
+                                                    updatedSerialization: obj.serialization,
+                                                    updatedOngoing: obj.ongoing,
+                                                    updatedAnimeAdaptation: obj.anime_adaptation
+                                                })
+                                            }
+                                            }
+                                            beingDeleted={() => {
+                                                this.setState({
+                                                    beingDeleted: obj
+                                                })
+                                            }
+                                            }
+                                            confirmDelete={this.confirmDelete} />
+                                    )
+                                })}
+                            </div>
+
+                            :
+
+                            <div class="alert alert-danger" role="alert">
+                                No Results Found
+                            </div>)
                         :
 
                         <div className='row g-4'>
@@ -708,7 +722,8 @@ export default class LandingPage extends React.Component {
                                         confirmDelete={this.confirmDelete} />
                                 )
                             })}
-                        </div>}
+                        </div>
+                    }
 
                     <div className='add-new-manga d-none d-sm-inline'>
                         <button className='btn btn-primary btn-border'
