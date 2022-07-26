@@ -1,23 +1,28 @@
-# Project-2-React
+# Project-2-Wise Manga Club
 
-![MediMap layout across different devices]()
+![Wise Manga Club layout across different devices]()
 
-Live demo can be accessed [here](https://golden-queijadas-5ac20c.netlify.app/).
+Live demo can be accessed [here](https://wisemangaclub.netlify.app/).
 
 ## Project Overview 
 
 **Context and Value Proposition**
-  
+With over thousands of manga titles available to read, it can be tough for people who want to find the next title to read. Wise Manga Club is a centralized platform where users can filter through the many titles and find one which is suitable for them. 
+
+Users can also add a manga on the website for others to view and help authors publicise their hard work. 
 
 **Target Audience**
-
+Mainly targetting adolescence to young adults (10-29 years old) who are the bulk of manga readers. 
 
 **Organisation Goals** 
 
-1.   
+For manga enthusiast like myself, I often find myself spending time on forums to find the next manga title to read or to listen to other's opinions of the manga. A centralised website like Wise Manga Club provides convenient features without navigating through the different forums available online.        
 
 **User Goals**
-
+1. Find out more about a manga that they are currently reading 
+2. Search for a manga of their interest 
+3. Add a new manga not available on the website 
+4. Update information 
 
 
 ## UI/UX 
@@ -26,27 +31,27 @@ Live demo can be accessed [here](https://golden-queijadas-5ac20c.netlify.app/).
 
 **User** 
 
-- Demographic: 
+- Demographic: New or long-time manga readers 
 
-- Needs: 
+- Needs: Finding the next title to read 
 
-- Pain points: 
+- Pain points: User has to navigate through different forums available online to find out more information of a manga or participate in the individual manga's discussions. 
 
 | User Stories | Acceptance Criteria(s) |
 | ------------ | ---------------------- |
-| xx | xx| 
-| yy | yy |  
+| As a reader who wants to find a title that has been completed, I want to know what are the available options that I have | Search/Filter function to allow user to filter based on his/her criteria | 
+| As a manga enthusiast, I want to promote a manga that is recently released or update information about a particular manga | Add, Update, Delete function available for user to utilize |  
 
 **2. Scope** 
 
 **Functional**
 
-- Perform search on either landing or map page
-- Alert to show classification of medication (or unavailable) after performing searches 
-- Table to display search results, able to filter based on either brand name or classification of medications 
-- Legend to display information about the markers 
-- Quick access to previous searches 
-- Zoom in on current location and pharmacies 1km within current location 
+- Browse all the available manga titles 
+- Search/Filter through manga based on title, author, genre etc 
+- Create a new manga title
+- Update information of a manga title
+- Leave review for a current manga listing
+- Delete/Remove a manga listing 
 
 **Non-Functional** 
 
@@ -63,7 +68,7 @@ Live demo can be accessed [here](https://golden-queijadas-5ac20c.netlify.app/).
 **5. Surface**
 
 **Fonts** 
- 
+Proza Libre is used as the font for the description on the landing page and the review page title because of it's professional outlook. 
 
 **Icons** 
 
@@ -116,4 +121,4 @@ Test Cases can be found [here]()
 - [Bytes](https://ui.dev/amiresponsive) - Display mobile responsiveness
 - [Lucidchart](https://www.lucidchart.com/pages/) - Design structure of page 
 - [Axios](https://cdnjs.com/libraries/axios) - AJAX request
-- [Netlify]() - Deployment 
+- [Netlify](https://www.netlify.com/) - Deployment 
