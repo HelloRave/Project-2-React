@@ -52,6 +52,7 @@ export default class LandingPage extends React.Component {
     }
 
     state = {
+        contentLoaded: false,
         data: [],
         newManga: {},
         active: 'display',
@@ -115,7 +116,8 @@ export default class LandingPage extends React.Component {
 
         this.setState({
             data: allMangaResponse.data,
-            allGenre: genreResponse.data
+            allGenre: genreResponse.data,
+            contentLoaded: true
         })
     }
 
@@ -622,6 +624,13 @@ export default class LandingPage extends React.Component {
                         }}
                         searchManga={this.searchManga} />
 
+                    <div class="d-grid d-sm-none mb-3">
+                        <button class="btn btn-primary btn-border"
+                                onClick={() => this.changePage('add-new-manga')}>
+                                    Add New Manga
+                        </button>
+                    </div>
+
                     {this.state.filteredData[0] ?
                         <div className='row g-4'>
                             {this.state.filteredData.map((obj) => {
@@ -701,11 +710,10 @@ export default class LandingPage extends React.Component {
                             })}
                         </div>}
 
-                    <div className='add-new-manga d-none d-sm-inline border p-1'
-                        onClick={() => this.changePage('add-new-manga')}>
-                        +
+                    <div className='add-new-manga d-none d-sm-inline'>
+                        <button className='btn btn-primary btn-border'
+                            onClick={() => this.changePage('add-new-manga')}>Add New</button>
                     </div>
-
                 </div>
             )
         }
@@ -830,11 +838,36 @@ export default class LandingPage extends React.Component {
         return (
             <React.Fragment>
 
-                <div className='container-fluid p-0 display-page'>
-                    <div className='pb-4 overlay'>
-                        {this.renderPage()}
+                {this.state.contentLoaded ?
+
+                    <div className='display-page'>
+                        <div className='overlay'>
+                            <div className='d-flex justify-content-center align-items-center'>
+                                <img src={require('../images/logo.png')} />
+                            </div>
+                            <div className='container-fluid p-0'>
+                                <div className='pb-4'>
+                                    {this.renderPage()}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+
+                    :
+
+                    <div className='display-page'>
+                        <div className='overlay'>
+                            <div className='d-flex justify-content-center align-items-center'>
+                                <img src={require('../images/logo.png')} />
+                            </div>
+                            <div className='container-fluid d-flex justify-content-center align-items-center spinner-div'>
+                                <div className='spinner'></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
 
                 <ToastContainer
                     position="top-right"

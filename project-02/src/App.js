@@ -32,14 +32,7 @@ class App extends React.Component {
     }
     else if (this.state.active === 'display') {
       return (
-        <div className='display-page'>
-          <div className='overlay'>
-            <div className='d-flex justify-content-center align-items-center'>
-              <img src={require('./images/logo.png')} />
-            </div>
-            <DisplayPage />
-          </div>
-        </div>
+        <DisplayPage />
       )
     }
   }
