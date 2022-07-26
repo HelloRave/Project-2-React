@@ -61,11 +61,7 @@ For manga enthusiast like myself, I often find myself spending time on forums to
 
 ![Structure](./project-02/readme/Structure.png) 
 
-**4. Skeleton**
-
-![Skeleton]()
-
-**5. Surface**
+**4. Surface**
 
 **Fonts** 
 Proza Libre is used as the font for the description on the landing page and the review page title because of it's professional outlook. 
@@ -86,7 +82,7 @@ Proza Libre is used as the font for the description on the landing page and the 
 
 ## Testing 
 
-Test Cases can be found [here]()
+Test Cases can be found [here](./project-02/readme/Test-Cases.pdf)
 
 ## Deployment 
 
