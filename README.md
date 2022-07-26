@@ -1,6 +1,6 @@
 # Project-2-Wise Manga Club
 
-![Wise Manga Club layout across different devices]()
+![Wise Manga Club layout across different devices](./project-02/readme/Responsiveness.JPG)
 
 Live demo can be accessed [here](https://wisemangaclub.netlify.app/).
 
@@ -59,7 +59,7 @@ For manga enthusiast like myself, I often find myself spending time on forums to
 
 **3. Structure** 
 
-![Structure]() 
+![Structure](./project-02/readme/Structure.png) 
 
 **4. Skeleton**
 
@@ -72,17 +72,17 @@ Proza Libre is used as the font for the description on the landing page and the 
 
 **Icons** 
 
-- Fontawesome icons: 
-
+- Fontawesome icons: placed beside review, edit and delete button to better illustrate the buttons 
 
 ## Technologies Used 
 
 | Technology | Usage |
 | -- | -- |
-| HTML, CSS, vanilla Javascript, Bootstrap 5 | Structure, styling and interactivity of website |
-| Axios | Retrieve data from geoJSON and CSV files | 
-| Leaflet and Marker Cluster plugin | Interactive and mobile responsive map with clustering of markers | 
-
+| HTML, CSS, Bootstrap 5, React Bootstrap | Structure, styling and interactivity of website |
+| React | Frontend framework | 
+| Axios | HTTP client to Express server endpoints | 
+| Express | Build restful API | 
+| MongoDB | Document-oriented database, where the all the data is stored |
 
 ## Testing 
 
@@ -90,7 +90,20 @@ Test Cases can be found [here]()
 
 ## Deployment 
 
-**Steps**
+**Frontend Deployment**
+The React app is hosted using [Netlify](https://www.netlify.com/).
+
+Prerequisites:
+- Any edits were added, commited, and pushed to Github repository
+- Netlify is connected and authorized to Github account
+- Netlify is connected to GitHub repository via "New site from Git"
+- "GitHub"  has been selected for continuous deployment
+
+Steps to publish:
+1. After connecting to repository, ensure edits were added, commited, and pushed to Github repository
+2. Netlify will start to build and perform automatic deployments upon detecting changes
+
+**Backend Deployment**
 
 1. Sign up for an account at Netlify
     - Go to https://www.netlify.com/ and log in with your Github account. 
@@ -111,13 +124,17 @@ Test Cases can be found [here]()
 
 **Fonts, Icons and Images** 
 
-- [Google Font](https://fonts.google.com/specimen/Proza+Libre) - Landing page title 
-- [Font Awesome](https://fontawesome.com/) - Icons for navigation 
+- [Google Font](https://fonts.google.com/specimen/Proza+Libre) - Landing page description, review page title
+- [Font Awesome](https://fontawesome.com/) - Review/edit/delete icon 
 - [Bootstrap 5](https://getbootstrap.com/) - Components and utilities
 - [Unsplash](https://unsplash.com/) - Landing page backgroud image  
 - [Coolors](https://coolors.co/820263-d90368-eadeda-2e294e-ffd400) - Choosing complementary colours
+- [Pexels](https://www.pexels.com/search/videos/videos/) - Landing page background video
 
 **Others** 
+- [React-toastify](https://github.com/fkhadra/react-toastify) - Alerts after completing CRUD
+- [React-circular-progressbar](https://www.npmjs.com/package/react-circular-progressbar) - Display overall review on review page
+- [Multiselect-react-dropdown](https://www.npmjs.com/package/multiselect-react-dropdown) - Multiselect for genre under update manga
 - [Bytes](https://ui.dev/amiresponsive) - Display mobile responsiveness
 - [Lucidchart](https://www.lucidchart.com/pages/) - Design structure of page 
 - [Axios](https://cdnjs.com/libraries/axios) - AJAX request
