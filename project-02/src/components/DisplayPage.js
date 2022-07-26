@@ -25,6 +25,7 @@ export default class LandingPage extends React.Component {
         serialization: '',
         ongoing: true,
         animeAdaptation: true,
+        toAdd: false,
         toReview: false,
         plot: '',
         mainCharacters: '',
@@ -243,6 +244,10 @@ export default class LandingPage extends React.Component {
                 let lastAdded = {
                     ...this.state.newManga,
                     _id: response.data.insertedId,
+                    'author': {
+                        _id: authorResponse.data[0] ? authorResponse.data[0]._id : '',
+                        name: this.state.author
+                    },
                     'plot': this.state.plot,
                     'main_characters': this.state.mainCharacters,
                     'supporting_characters': this.state.supportingCharacters,
@@ -252,11 +257,7 @@ export default class LandingPage extends React.Component {
                 this.setState({
                     data: [...this.state.data, lastAdded],
                     active: 'display',
-                    toAdd: false,
-                    plot: '',
-                    mainCharacters: '',
-                    supportingCharacters: '',
-                    rating: '' //also reset the state for page 1
+                    ...this.initialStateAddManga
                 })
 
                 toast('New Manga Added!', {
@@ -734,7 +735,8 @@ export default class LandingPage extends React.Component {
                 back={() => {
                     this.setState({
                         active: 'display',
-                        updatedDescription: ''
+                        updatedDescription: '',
+                        toUpdate: false,
                     })
                 }}
                 confirmUpdate={this.confirmUpdate} />
@@ -780,7 +782,7 @@ export default class LandingPage extends React.Component {
                     backToFirstPage={() => {
                         this.setState({
                             active: 'add-new-manga',
-                            toAdd: false, 
+                            toAdd: false,
                             plot: '',
                             mainCharacters: '',
                             supportingCharacters: '',
