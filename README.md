@@ -114,7 +114,8 @@ Steps to publish:
 
 ## Challenges and Future Implementations 
 
-1.  
+1. Any user can edit or delete listings on the website which is not ideal as it can be subjected to malicious attacks easily. Implement a sign up and login system such that only authorised users can edit or delete the listings.
+2. Date of manga's first published needs to be manually keyed in. For better UX, allow users to select the date using a calendar.  
 
 ## Credits 
 
@@ -135,3 +136,4 @@ Steps to publish:
 - [Lucidchart](https://www.lucidchart.com/pages/) - Design structure of page 
 - [Axios](https://cdnjs.com/libraries/axios) - AJAX request
 - [Netlify](https://www.netlify.com/) - Deployment 
+- [MyAnimeList](https://myanimelist.net/manga.php) - Photos of manga covers 
