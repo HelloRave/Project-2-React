@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default class LandingPage extends React.Component {
 
-    url = 'https://hww-tgc18-project-02.herokuapp.com/'
+    url = 'https://manga-club-app.onrender.com/'
 
     initialStateAddManga = {
         url: '',
